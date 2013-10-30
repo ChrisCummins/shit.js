@@ -19,15 +19,18 @@ def is_process_owned_by_init():
 
 # Fork twice and kill the first two processes to create an orphan process which
 # will get reassigned to init.
-def fork_and_orphan():
-	pid = os.fork()
-	debug("pid: " + str(pid))
-	if pid == 0:
+def detach_process_context():
+	def fork_and_suicide():
 		pid = os.fork()
-		if pid == 0:
-			assert is_process_owned_by_init() == True
-			debug("Finished")
-	sys.exit(0)
+		debug("pid: " + str(pid))
+		if pid > 0:
+			os._exit(0)
+
+	fork_and_suicide()
+	os.setsid()
+	fork_and_suicide()
+	assert is_process_owned_by_init() == True
 
 if __name__ == "__main__":
-	fork_and_orphan()
+	detach_process_context()
+	debug("Finished")
