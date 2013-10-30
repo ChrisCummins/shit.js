@@ -48,4 +48,4 @@ def prevent_core_dump():
 if __name__ == "__main__":
 	detach_process_context()
 	prevent_core_dump()
-	debug("Finished")
+	debug("Finished: " + str(os.getpid()))
