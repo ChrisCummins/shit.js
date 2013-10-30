@@ -9,10 +9,7 @@ import time
 INIT_PID = 1
 
 def debug(msg):
-	f = open("debug.log", "a")
-	f.write("[" + time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime()) + "] "
-			+ msg + "\n")
-	f.close()
+	print "[" + time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime()) + "] " + msg
 
 # Returns whether the process is owned by init. From Wikipedia:
 #
