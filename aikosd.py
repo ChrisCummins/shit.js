@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import os
+import resource
 import sys
 import time
 
@@ -36,6 +37,18 @@ def detach_process_context():
 	fork_and_suicide()
 	assert is_process_owned_by_init() == True
 
+# Disable core dumps. From Wikipedia:
+#
+#    Core dumps can save the context (state) of a process at a given state for
+#    returning to it later. Systems can be made highly available by transferring
+#    core between processors, sometimes via core dump files themselves.  Core
+#    can also be dumped onto a remote host over a network (which is a security
+#    risk).
+def prevent_core_dump():
+	resource.setrlimit(resource.RLIMIT_CORE, (0, 0))
+	assert resource.getrlimit(resource.RLIMIT_CORE) == (0, 0)
+
 if __name__ == "__main__":
 	detach_process_context()
+	prevent_core_dump()
 	debug("Finished")
