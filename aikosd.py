@@ -13,12 +13,17 @@ def debug(msg):
 			+ msg + "\n")
 	f.close()
 
-# Returns whether the process is owned by init
+# Returns whether the process is owned by init. From Wikipedia:
+#
+#    In a Unix environment, the parent process of a daemon is often, but not
+#    always, the init process.
 def is_process_owned_by_init():
 	return os.getppid() == INIT_PID
 
-# Fork twice and kill the first two processes to create an orphan process which
-# will get reassigned to init.
+# Detach the process context. From Wikipedia:
+#
+#    A daemon is usually created by a process forking a child process and then
+#    immediately exiting, thus causing init to adopt the child process.
 def detach_process_context():
 	def fork_and_suicide():
 		pid = os.fork()
