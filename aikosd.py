@@ -25,6 +25,15 @@ def set_working_directory(directory):
 	except Exception:
 		exit("fatal: Unable to change working directory to '" + directory + "'")
 
+# Set the change root of the process.
+#
+#     @param directory The change root directory as a string, e.g. "/"
+def set_change_root_directory(directory):
+	try:
+		os.chroot(directory)
+	except Exception:
+		exit("fatal: Unable to change root directory to '" + directory + "'")
+
 # Returns whether the process is owned by init. From Wikipedia:
 #
 #    In a Unix environment, the parent process of a daemon is often, but not
@@ -61,7 +70,13 @@ def prevent_core_dump():
 
 if __name__ == "__main__":
 	exit_if_not_root_permissions()
+
+	# Set the working directory and root directory of the process to root
+	# directory (/) so that the process does not keep any directory in use that
+	# may be on a mounted file system.
 	set_working_directory("/")
+	set_change_root_directory("/")
+
 	detach_process_context()
 	prevent_core_dump()
 	debug("Finished: " + str(os.getpid()))
