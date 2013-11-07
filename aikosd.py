@@ -11,6 +11,10 @@ INIT_PID = 1
 # The user ID of root
 ROOT_UID = 0
 
+# Destination logfile for output
+STDOUT_FILE = "/var/log/aikos"
+STDERR_FILE = STDOUT_FILE
+
 def debug(msg):
 	print "[" + time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime()) + "] " + msg
 
@@ -57,6 +61,14 @@ def close_all_open_files():
 		os.closerange(0, maxfd)
 	except Exception:
 		exit("fatal: Unable to close all file descriptors")
+
+# Redirect a system stream to a specified file.
+#
+#     @param src A standard system strem, e.g. stderr, stdout.
+#     @param dest An open file object that should replace the current stream.
+def redirect_stream(src, dest):
+	fd = dest.fileno()
+	os.dup2(fd, src.fileno())
 
 # Disable core dumps. From Wikipedia:
 #
@@ -114,6 +126,13 @@ if __name__ == "__main__":
 	# the parent process, including file descriptors 0, 1 and 2 (stdin, stdout,
 	# stderr). Required files will be opened later.
 	close_all_open_files()
+
+	# Use a logfile as stdout and stderr.
+	stdout = open(STDOUT_FILE, "a")
+	stderr = open(STDERR_FILE, "a")
+
+	redirect_stream(sys.stdout, stdout)
+	redirect_stream(sys.stderr, stderr)
 
 	# We don't want core dumps for security reasons.
 	prevent_core_dump()
