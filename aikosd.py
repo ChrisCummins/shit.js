@@ -46,6 +46,17 @@ def set_file_creation_mask(mask):
 	except Exception:
 		exit("fatal: Unable to change file creation mask '" + mask + "'")
 
+# Disable core dumps. From Wikipedia:
+#
+#    Core dumps can save the context (state) of a process at a given state for
+#    returning to it later. Systems can be made highly available by transferring
+#    core between processors, sometimes via core dump files themselves.  Core
+#    can also be dumped onto a remote host over a network (which is a security
+#    risk).
+def prevent_core_dump():
+	resource.setrlimit(resource.RLIMIT_CORE, (0, 0))
+	assert resource.getrlimit(resource.RLIMIT_CORE) == (0, 0)
+
 # Returns whether the process is owned by init. From Wikipedia:
 #
 #    In a Unix environment, the parent process of a daemon is often, but not
@@ -68,17 +79,6 @@ def detach_process_context():
 	os.setsid()
 	fork_and_suicide()
 	assert is_process_owned_by_init() == True
-
-# Disable core dumps. From Wikipedia:
-#
-#    Core dumps can save the context (state) of a process at a given state for
-#    returning to it later. Systems can be made highly available by transferring
-#    core between processors, sometimes via core dump files themselves.  Core
-#    can also be dumped onto a remote host over a network (which is a security
-#    risk).
-def prevent_core_dump():
-	resource.setrlimit(resource.RLIMIT_CORE, (0, 0))
-	assert resource.getrlimit(resource.RLIMIT_CORE) == (0, 0)
 
 if __name__ == "__main__":
 	# We need root permissions.
