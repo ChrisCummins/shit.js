@@ -11,6 +11,11 @@ INIT_PID = 1
 def debug(msg):
 	print "[" + time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime()) + "] " + msg
 
+# Checks whether we have root permissions, else fails noisily.
+def exit_if_not_root_permissions():
+	if os.geteuid() != 0:
+		exit("fatal: must be ran as root!")
+
 # Returns whether the process is owned by init. From Wikipedia:
 #
 #    In a Unix environment, the parent process of a daemon is often, but not
@@ -46,6 +51,7 @@ def prevent_core_dump():
 	assert resource.getrlimit(resource.RLIMIT_CORE) == (0, 0)
 
 if __name__ == "__main__":
+	exit_if_not_root_permissions()
 	detach_process_context()
 	prevent_core_dump()
 	debug("Finished: " + str(os.getpid()))
