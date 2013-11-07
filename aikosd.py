@@ -16,6 +16,15 @@ def exit_if_not_root_permissions():
 	if os.geteuid() != 0:
 		exit("fatal: must be ran as root!")
 
+# Set the working directory of the process.
+#
+#     @param directory The working directory as a string, e.g. "/"
+def set_working_directory(directory):
+	try:
+		os.chdir(directory)
+	except Exception:
+		exit("fatal: Unable to change working directory to '" + directory + "'")
+
 # Returns whether the process is owned by init. From Wikipedia:
 #
 #    In a Unix environment, the parent process of a daemon is often, but not
@@ -52,6 +61,7 @@ def prevent_core_dump():
 
 if __name__ == "__main__":
 	exit_if_not_root_permissions()
+	set_working_directory("/")
 	detach_process_context()
 	prevent_core_dump()
 	debug("Finished: " + str(os.getpid()))
