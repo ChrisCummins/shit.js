@@ -18,11 +18,6 @@ STDERR_FILE = STDOUT_FILE
 def debug(msg):
 	print "[" + time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime()) + "] " + msg
 
-# Checks whether we have root permissions, else fails noisily.
-def exit_if_not_root_permissions():
-	if os.geteuid() != ROOT_UID:
-		exit("fatal: must be ran as root!")
-
 # Set the working directory of the process.
 #
 #     @param directory The working directory as a string, e.g. "/"
@@ -161,6 +156,11 @@ def init_daemon():
 
 	# We don't want core dumps for security reasons.
 	prevent_core_dump()
+
+# Checks whether we have root permissions, else fails noisily.
+def exit_if_not_root_permissions():
+	if os.geteuid() != ROOT_UID:
+		exit("fatal: must be ran as root!")
 
 if __name__ == "__main__":
 	# We need root permissions.
