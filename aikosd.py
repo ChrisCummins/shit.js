@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import atexit
 import os
 import resource
 import sys
@@ -129,6 +130,13 @@ def detach_process_context():
 # * Uses a logfile as stdout and stderr, and /dev/null as stdin.
 #
 def init_daemon():
+
+	# Tidies up from the daemon context. Most importantly it closes the stdout and
+	# stderr logfiles.
+	def close_daemon():
+		stdout.close()
+		stderr.close()
+
 	# Dissociate the process from the controlling tty.
 	detach_process_context()
 
@@ -163,6 +171,9 @@ def init_daemon():
 
 	# We don't want core dumps for security reasons.
 	prevent_core_dump()
+
+	# Close the daemon on exit.
+	atexit.register(close_daemon)
 
 # Checks whether we have root permissions, else fails noisily.
 def exit_if_not_root_permissions():
