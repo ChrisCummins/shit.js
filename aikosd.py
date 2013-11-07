@@ -81,6 +81,7 @@ def prevent_core_dump():
 	assert resource.getrlimit(resource.RLIMIT_CORE) == (0, 0)
 
 if __name__ == "__main__":
+	# We need root permissions.
 	exit_if_not_root_permissions()
 
 	# Set the working directory and root directory of the process to root
@@ -94,6 +95,10 @@ if __name__ == "__main__":
 	# of the caller.
 	set_file_creation_mask(0)
 
-	detach_process_context()
+	# We don't want core dumps for security reasons.
 	prevent_core_dump()
+
+	# Dissociate the process from the controlling tty.
+	detach_process_context()
+
 	debug("Finished: " + str(os.getpid()))
