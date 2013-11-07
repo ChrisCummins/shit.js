@@ -8,12 +8,15 @@ import time
 # The process ID of init
 INIT_PID = 1
 
+# The user ID of root
+ROOT_UID = 0
+
 def debug(msg):
 	print "[" + time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime()) + "] " + msg
 
 # Checks whether we have root permissions, else fails noisily.
 def exit_if_not_root_permissions():
-	if os.geteuid() != 0:
+	if os.geteuid() != ROOT_UID:
 		exit("fatal: must be ran as root!")
 
 # Set the working directory of the process.
