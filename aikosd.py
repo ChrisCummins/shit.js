@@ -66,8 +66,12 @@ def close_all_open_files():
 #
 #     @param src A standard system strem, e.g. stderr, stdout.
 #     @param dest An open file object that should replace the current stream.
+#                 If dest is None, the stream is redirected to /dev/null.
 def redirect_stream(src, dest):
-	fd = dest.fileno()
+	if dest is None:
+		fd = os.open(os.devnull, os.O_RDWR)
+	else:
+		fd = dest.fileno()
 	os.dup2(fd, src.fileno())
 
 # Disable core dumps. From Wikipedia:
@@ -133,6 +137,9 @@ if __name__ == "__main__":
 
 	redirect_stream(sys.stdout, stdout)
 	redirect_stream(sys.stderr, stderr)
+
+	# We don't want any inputs to the process.
+	redirect_stream(sys.stdin, None)
 
 	# We don't want core dumps for security reasons.
 	prevent_core_dump()
