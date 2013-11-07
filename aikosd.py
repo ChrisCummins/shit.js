@@ -46,6 +46,18 @@ def set_file_creation_mask(mask):
 	except Exception:
 		exit("fatal: Unable to change file creation mask '" + mask + "'")
 
+# Returns the maximum number of open file descriptors of the process.
+def get_max_file_descriptors():
+	return resource.getrlimit(resource.RLIMIT_NOFILE)[1]
+
+# Close all open file descriptors.
+def close_all_open_files():
+	try:
+		maxfd = get_max_file_descriptors()
+		os.closerange(0, maxfd)
+	except Exception:
+		exit("fatal: Unable to close all file descriptors")
+
 # Disable core dumps. From Wikipedia:
 #
 #    Core dumps can save the context (state) of a process at a given state for
@@ -94,6 +106,11 @@ if __name__ == "__main__":
 	# calls to provide their own permission masks and not to depend on the umask
 	# of the caller.
 	set_file_creation_mask(0)
+
+	# Close all inherited files at the time of execution that are left open by
+	# the parent process, including file descriptors 0, 1 and 2 (stdin, stdout,
+	# stderr). Required files will be opened later.
+	close_all_open_files()
 
 	# We don't want core dumps for security reasons.
 	prevent_core_dump()
