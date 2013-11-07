@@ -15,6 +15,10 @@ ROOT_UID = 0
 STDOUT_FILE = "/var/log/aikos"
 STDERR_FILE = STDOUT_FILE
 
+# Destination stream objects
+stdout = None;
+stderr = None;
+
 def debug(msg):
 	print "[" + time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime()) + "] " + msg
 
@@ -145,6 +149,9 @@ def init_daemon():
 	close_all_open_files()
 
 	# Use a logfile as stdout and stderr.
+	global stdout;
+	global stderr;
+
 	stdout = open(STDOUT_FILE, "a")
 	stderr = open(STDERR_FILE, "a")
 
