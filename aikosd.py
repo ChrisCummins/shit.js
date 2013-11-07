@@ -108,10 +108,28 @@ def detach_process_context():
 	fork_and_suicide()
 	assert is_process_owned_by_init() == True
 
-if __name__ == "__main__":
-	# We need root permissions.
-	exit_if_not_root_permissions()
-
+# Turns the current process into a daemon. In summary, it:
+#
+# * Disassociates the process from a tty.
+#
+# * Executes itself as a background task by forking and exiting twice, which
+#   allows the parent process to continue its normal execution.
+#
+# * Changes the umask to 0 to allow open(), creat(), et al. operating system
+#   calls to provide their own permission masks and not to depend on the umask
+#   of the caller.
+#
+# * Sets the root directory (/) as the current working directory so that the
+#   process does not keep any directory in use that may be on a mounted file
+#   system (allowing it to be unmounted).
+#
+# * Closes all inherited files at the time of execution that are left open by
+#   the parent process, including file descriptors 0, 1 and 2 (stdin, stdout,
+#   stderr).
+#
+# * Uses a logfile as stdout and stderr, and /dev/null as stdin.
+#
+def init_daemon():
 	# Dissociate the process from the controlling tty.
 	detach_process_context()
 
@@ -143,5 +161,12 @@ if __name__ == "__main__":
 
 	# We don't want core dumps for security reasons.
 	prevent_core_dump()
+
+if __name__ == "__main__":
+	# We need root permissions.
+	exit_if_not_root_permissions()
+
+	# Daemon-ify the process.
+	init_daemon()
 
 	debug("Finished: " + str(os.getpid()))
