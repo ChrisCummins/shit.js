@@ -96,6 +96,9 @@ if __name__ == "__main__":
 	# We need root permissions.
 	exit_if_not_root_permissions()
 
+	# Dissociate the process from the controlling tty.
+	detach_process_context()
+
 	# Set the working directory and root directory of the process to root
 	# directory (/) so that the process does not keep any directory in use that
 	# may be on a mounted file system.
@@ -114,8 +117,5 @@ if __name__ == "__main__":
 
 	# We don't want core dumps for security reasons.
 	prevent_core_dump()
-
-	# Dissociate the process from the controlling tty.
-	detach_process_context()
 
 	debug("Finished: " + str(os.getpid()))
