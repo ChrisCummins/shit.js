@@ -37,6 +37,15 @@ def set_change_root_directory(directory):
 	except Exception:
 		exit("fatal: Unable to change root directory to '" + directory + "'")
 
+# Set the file creation mask (umask) of the process.
+#
+#     @param mask The desired process umask
+def set_file_creation_mask(mask):
+	try:
+		os.umask(mask)
+	except Exception:
+		exit("fatal: Unable to change file creation mask '" + mask + "'")
+
 # Returns whether the process is owned by init. From Wikipedia:
 #
 #    In a Unix environment, the parent process of a daemon is often, but not
@@ -79,6 +88,11 @@ if __name__ == "__main__":
 	# may be on a mounted file system.
 	set_working_directory("/")
 	set_change_root_directory("/")
+
+	# Change the umask to 0 to allow open(), creat(), et al. operating system
+	# calls to provide their own permission masks and not to depend on the umask
+	# of the caller.
+	set_file_creation_mask(0)
 
 	detach_process_context()
 	prevent_core_dump()
