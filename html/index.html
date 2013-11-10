@@ -1,0 +1,81 @@
+<script>
+
+  function sort(arr, property, desc) {
+    function sorter(aa, bb) {
+      var a = !desc ? aa : bb;
+      var b = !desc ? bb : aa;
+
+      if (typeof a[property] == "number") {
+        return (a[property] - b[property]);
+      } else {
+        return ((a[property] < b[property])
+                ? -1 : ((a[property] > b[property]) ? 1 : 0));
+      }
+    }
+
+    return arr.sort(sorter);
+  };
+
+  function print_msg (msg, style, time) {
+    $('#msg').html('<div class="msg msg-'+ style +'">' + msg + '</div>');
+    $('#msg').fadeIn();
+    setTimeout(function() {
+      $('#msg').fadeOut()
+    }, time || 500);
+  }
+
+  function show_error(msg){
+    print_msg(msg, 'error');
+  }
+
+  function show_ok(msg) {
+    print_msg(msg, 'ok');
+  }
+
+  $(document).ready(function() {
+    var server = 'http://' + real_time_server.host + ':' +
+      real_time_server.port;
+    var socket = io.connect(server);
+
+    socket.on('connect', function() {
+      $('#socketio').html('<span class="label label-success">' +
+                          'connected</label>');
+      socket.emit('join', { id: user_id });
+    });
+
+    socket.on('disconnect', function() {
+      $('#socketio').html('<span class="label label-important">' +
+                          'disconnected</label>');
+    });
+
+    socket.on('messages', function(messages) {
+      $('#messages').html(watch.messages(messages));
+    });
+
+    function Watch() {
+      var self=this;
+      self.name = ko.observable();
+      self.messages = ko.observableArray();
+    };
+
+    var watch = new Watch();
+    ko.applyBindings(watch);
+  });
+
+</script>
+
+<div class="row">
+  <div class="col-md-12">
+    <h3>Messages</h3>
+    <ol data-bind="foreach: messages">
+      <li>
+        <strong>
+          <span data-bind="text: type"></span>
+        </strong>
+        <span>
+          (<span data-bind="text: message"></span>)
+        </span>
+      </li>
+    </ol>
+  </div>
+</div>
