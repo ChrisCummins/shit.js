@@ -53,6 +53,12 @@ sdist
 var
 
 #
+# Node project files
+#
+npm-debug.log
+node_modules/*
+
+#
 # Autotools by-products
 #
 /aclocal.m4
