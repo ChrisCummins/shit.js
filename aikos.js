@@ -15,6 +15,44 @@ var Aikos = function(server) {
 
   var filewatchers = [];
 
+  function broadcast(sessions, command, data, exception) {
+    for (var i=0; i < sessions.length; i++) {
+      if (!exception || sessions[i] != exception)
+	clients[sessions[i]].emit(command, data);
+    };
+  };
+
+  function pushMessage(type, msg, path) {
+    messages.push({
+      type: type,
+      message: msg,
+      path: path
+    });
+
+    broadcast(sessions, 'messages', messages);
+  };
+
+  socket.on('connection', function(client) {
+
+    client.on('disconnect', function() {
+      for (var i = 0; i < sessions.length; i++) {
+	if (sessions[i] == client.id) {
+	  delete clients[client.id];
+	  sessions.splice(i,1);
+	  break;
+	}
+      };
+    });
+
+    client.on('join', function (data) {
+      util.add(sessions, client.id);
+      clients[client.id] = client;
+
+      broadcast(sessions, 'messages', messages);
+    });
+
+  });
+
   function logListener(logLevel) {
     // console.log('a log message occured:', arguments);
   };
@@ -82,44 +120,6 @@ var Aikos = function(server) {
       closeFileWatchers();
     });
   }
-
-  function broadcast(sessions, command, data, exception) {
-    for (var i=0; i < sessions.length; i++) {
-      if (!exception || sessions[i] != exception)
-	clients[sessions[i]].emit(command, data);
-    };
-  };
-
-  function pushMessage(type, msg, path) {
-    messages.push({
-      type: type,
-      message: msg,
-      path: path
-    });
-
-    broadcast(sessions, 'messages', messages);
-  };
-
-  socket.on('connection', function(client) {
-
-    client.on('disconnect', function() {
-      for (var i = 0; i < sessions.length; i++) {
-	if (sessions[i] == client.id) {
-	  delete clients[client.id];
-	  sessions.splice(i,1);
-	  break;
-	}
-      };
-    });
-
-    client.on('join', function (data) {
-      util.add(sessions, client.id);
-      clients[client.id] = client;
-
-      broadcast(sessions, 'messages', messages);
-    });
-
-  });
 
   init();
 };
