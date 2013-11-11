@@ -14,6 +14,26 @@ var Aikos = function(server) {
 
   var filewatchers = [];
 
+  function createFileWatchers() {
+    for (var f in config.aikos.files) {
+      filewatchers.push(new FileWatcher(f, config.aikos.files[f]));
+    }
+  };
+
+  function closeFileWatchers() {
+    console.log('\nShutting down filewatchers.');
+    for (var i = 0; i < filewatchers.length; i++)
+      filewatchers[i].close();
+  };
+
+  function init() {
+    createFileWatchers();
+
+    process.on('SIGINT', function() {
+      closeFileWatchers();
+    });
+  }
+
   function broadcast(sessions, command, data, exception) {
     for (var i=0, l=sessions.length; i < l ; i++) {
       if (!exception || sessions[i] != exception)
@@ -26,10 +46,6 @@ var Aikos = function(server) {
 
     broadcast(sessions, 'messages', messages);
   };
-
-  for (var f in config.aikos.files) {
-    filewatchers.push(new FileWatcher(f, config.aikos.files[f]));
-  }
 
   socket.on('connection', function(client) {
 
@@ -52,6 +68,7 @@ var Aikos = function(server) {
 
   });
 
+  init();
 };
 
 module.exports = Aikos;
