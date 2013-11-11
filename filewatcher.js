@@ -6,7 +6,7 @@ var FileWatcher = function(path, args) {
   this.watcher = null;
 
   function logListener(logLevel) {
-    console.log('a log message occured:', arguments);
+    // console.log('a log message occured:', arguments);
   };
 
   function errorListener(error) {
@@ -15,9 +15,9 @@ var FileWatcher = function(path, args) {
 
   function watchingListener(error, watcherInstance, isWatching) {
     if (error) {
-      console.log("watching the path " + watcherInstance.path + " failed with error", error);
+      // console.log("watching the path " + watcherInstance.path + " failed with error", error);
     } else {
-      console.log("watching the path " + watcherInstance.path + " completed");
+      // console.log("watching the path " + watcherInstance.path + " completed");
     }
   };
 
@@ -30,7 +30,7 @@ var FileWatcher = function(path, args) {
     if (error) {
       return console.log("watching everything failed with error", error);
     } else {
-      console.log('watching everything completed', watcher);
+      // console.log('watching everything completed', watcher);
     }
 
     this.watcher = watcher;
