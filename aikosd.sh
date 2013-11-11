@@ -39,7 +39,7 @@ case "$1" in
 			echo "Starting $PROGRAM..."
 			$START_CMD
 		else
-			echo "$PROGRAM already running!" >&2
+			echo "$PROGRAM already running! ($(get_pid))" >&2
 			exit 3
 		fi
 		;;
