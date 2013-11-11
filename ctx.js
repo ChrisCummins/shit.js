@@ -1,7 +1,16 @@
 var daemon = require('daemon');
+var winston = require('winston');
 
 var INIT_PID = 1;
 var ROOT_UID = 0;
+
+var logger = new (winston.Logger)({
+    transports: [
+      new (winston.transports.Console)(),
+      new (winston.transports.File)({ filename: '/var/log/aikos' })
+    ]
+  });
+module.exports.logger = logger;
 
 /*
  * Checks whether process has root permissions or not.
