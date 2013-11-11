@@ -11,7 +11,7 @@ exports.values = {
   aikos: {
     context: {
       rootPermissions: false,
-      daemon: false,
+      daemon: true,
       stdout: '/var/log/aikos',
       stderr: '/var/log/aikos',
       pidfile: '/tmp/aikosd'
