@@ -1,4 +1,5 @@
 var watchr = require('watchr');
+var ctx = require('./ctx');
 
 var FileWatcher = function(path, args) {
 
@@ -22,18 +23,15 @@ var FileWatcher = function(path, args) {
   };
 
   function updateListener(filePath, currentStat, previousStat) {
-    console.log('update! ', arguments);
+    ctx.logger.log('info', '[CREATE] ' + JSON.stringify(currentStat));
   };
 
   function createListener(filePath, currentStat, previousStat) {
-    console.log('[CREATE] path: ' + filePath + ', currentState: ' + currentStat +
-                ', previousStat: ' + previousStat);
-    console.log(currentStat);
-    // console.log('create! ', arguments);
+     ctx.logger.log('info', '[CREATE] ' + JSON.stringify(currentStat));
   };
 
   function deleteListener(filePath, previousStat) {
-    console.log('delete! ', arguments);
+    ctx.logger.log('info', '[CREATE] ' + JSON.stringify(currentStat));
   };
 
   function changeListener(changeType, filePath,
