@@ -1,7 +1,7 @@
-exports.getApp = function(config) {
+var App = function(config) {
 
   var express = require('express');
-  var app = module.exports = express.createServer();
+  var app = express.createServer();
   var routes = require('./routes');
 
   function local_env(req, res, next) {
@@ -41,3 +41,5 @@ exports.getApp = function(config) {
 
   return app;
 };
+
+module.exports = App;

@@ -1,11 +1,10 @@
 var config = require('./config').values;
-var app = require('./app').getApp(config);
+var App = require('./app');
 var Aikos = require('./aikos');
 
 var port = parseInt(process.argv[2]) || 8080;
 
-app.listen(port);
-
+var app = new App(config).listen(port);
 var aikos = new Aikos(app);
 
 console.log('Server listening on port %d in %s mode.',
