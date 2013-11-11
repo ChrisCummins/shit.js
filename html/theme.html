@@ -1,1 +1,23 @@
+<script>
+
+  $(document).ready(function() {
+    var server = 'http://' + real_time_server.host + ':' +
+      real_time_server.port;
+    var socket = io.connect(server);
+
+    socket.on('connect', function() {
+      $('#socketio').html('<span class="label label-success">' +
+                          'connected</label>');
+      socket.emit('join', { id: user_id });
+    });
+
+    socket.on('disconnect', function() {
+      $('#socketio').html('<span class="label label-important">' +
+                          'disconnected</label>');
+    });
+
+  });
+
+</script>
+
 <h1>Hello, World!</h1>
