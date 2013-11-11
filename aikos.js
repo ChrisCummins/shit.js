@@ -2,7 +2,7 @@ var config = require('./config').values;
 var util = require('./util');
 var watchr = require('watchr');
 
-exports.createAikos = function(server) {
+var Aikos = function(server) {
 
   var io = require('socket.io').listen(server);
   var socket = io.sockets;
@@ -80,3 +80,5 @@ exports.createAikos = function(server) {
   });
 
 };
+
+module.exports = Aikos
