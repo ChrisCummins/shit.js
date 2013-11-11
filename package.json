@@ -12,6 +12,8 @@
   "dependencies": {
     "express": "2.5.0",
     "ejs": ">= 0.0.1",
-    "socket.io": ">= 0.8.7"
+    "socket.io": ">= 0.8.7",
+    "watchr": ">= 2.4.4",
+    "daemon": ">= 1.1.0"
   }
 }
