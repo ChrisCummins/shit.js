@@ -1,3 +1,4 @@
+var fs = require('fs');
 var daemon = require('daemon');
 var winston = require('winston');
 
@@ -57,6 +58,25 @@ function initDaemon(config) {
 }
 
 /*
+ * Create a Process ID file. The PID file is deleted on program exit.
+ */
+function createPidFile(path) {
+  var pid = process.pid + '\n';
+
+  fs.writeFile(path, pid, function(error) {
+    if (error)
+      console.log('fatal: unable to write PID file \'' + path + '\'!');
+  });
+
+  process.on('SIGINT', function() {
+    fs.unlink(path, function(error) {
+      if (error)
+        console.log('fatal: unable to remove PID file \'' + path + '\'!');
+    });
+  });
+}
+
+/*
  * Initialise process context.
  */
 function init(config) {
@@ -67,5 +87,6 @@ function init(config) {
   if (config.daemon)
     initDaemon(config);
 
+  createPidFile(config.pidfile);
 }
 module.exports.init = init;
