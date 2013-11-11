@@ -39,9 +39,6 @@ AC_PROG_MKDIR_P
 AM_INIT_AUTOMAKE([1.11 foreign -Wall -Werror -Wno-portability])
 AM_SILENT_RULES([yes])
 
-# Check for Python
-AM_PATH_PYTHON([2.5])
-
 AC_OUTPUT([
 	Makefile
 	www/Makefile

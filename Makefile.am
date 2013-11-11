@@ -5,7 +5,7 @@ CLEANFILES = $(noinst_SCRIPTS)
 SUBDIRS = www
 
 # Generating executables from Python scripts
-%: %.py
+%: %.sh
 	$(INSTALL) --mode=755 $< $@
 
 test:
