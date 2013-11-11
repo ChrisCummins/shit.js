@@ -49,6 +49,11 @@ var FileWatcher = function(path, args) {
     next: nextListener
   });
 
+  this.close = function() {
+    console.log('Closing file watcher \'' + this.path + '\'');
+    watcher.close();
+  };
+
 };
 
 module.exports = FileWatcher;
