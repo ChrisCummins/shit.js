@@ -2,6 +2,9 @@ var watchr = require('watchr');
 
 var FileWatcher = function(path, args) {
 
+  this.path = path;
+  this.watcher = null;
+
   function logListener(logLevel) {
     console.log('a log message occured:', arguments);
   };
@@ -29,6 +32,8 @@ var FileWatcher = function(path, args) {
     } else {
       console.log('watching everything completed', watcher);
     }
+
+    this.watcher = watcher;
   };
 
   watchr.watch({
