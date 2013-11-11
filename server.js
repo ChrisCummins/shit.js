@@ -4,6 +4,9 @@ var Aikos = require('./aikos');
 var port = parseInt(process.argv[2]) || 8080;
 
 var config = require('./config').values;
+var ctx = require('./ctx');
+
+ctx.init(config);
 
 var app = new App(config).listen(port);
 var aikos = new Aikos(app);
