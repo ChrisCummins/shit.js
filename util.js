@@ -9,7 +9,7 @@ exports.add = function(array, value) {
 };
 
 exports.sort = function(array, property, desc) {
-  function sorter(aa,bb) {
+  function sorter(aa, bb) {
     var a = !desc ? aa : bb;
     var b = !desc ? bb : aa;
 
