@@ -2,6 +2,7 @@ exports.getApp = function(config) {
 
   var express = require('express');
   var app = module.exports = express.createServer();
+  var routes = require('./routes');
 
   function local_env(req, res, next) {
     res.local('real_time_server', config.server.production.real_time_server)
@@ -9,6 +10,8 @@ exports.getApp = function(config) {
   }
 
   app.configure(function(){
+    var oneYear = 31557600000;
+
     app.set('views', __dirname + '/www');
     app.set('view engine', 'ejs');
     app.register('.html', require('ejs'));
@@ -20,7 +23,6 @@ exports.getApp = function(config) {
     app.use(local_env);
     app.use(app.router);
 
-    var oneYear = 31557600000;
     app.use(express.static(__dirname + '/www', { maxAge: oneYear }));
   });
 
@@ -35,7 +37,7 @@ exports.getApp = function(config) {
     app.use(express.errorHandler());
   });
 
-  require('./routes').configure(app);
+  routes.configure(app);
 
   return app;
 };
