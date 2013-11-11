@@ -22,7 +22,7 @@ var Aikos = function(server) {
     };
   };
 
-  function pushMessage(type, msg, path) {
+  function pushNewMessage(type, msg, path) {
     messages.push({
       type: type,
       message: msg,
@@ -70,15 +70,15 @@ var Aikos = function(server) {
   };
 
   function updateListener(filePath, currentStat, previousStat) {
-    ctx.logger.log('info', '[UPDATE] ' + JSON.stringify(currentStat));
+    pushNewMessage('[UPDATE]', JSON.stringify(currentStat), filePath);
   };
 
   function createListener(filePath, currentStat, previousStat) {
-     ctx.logger.log('info', '[CREATE] ' + JSON.stringify(currentStat));
+    pushNewMessage('[CREATE]', JSON.stringify(currentStat), filePath);
   };
 
   function deleteListener(filePath, previousStat) {
-    ctx.logger.log('info', '[DELETE] ' + JSON.stringify(previousStat));
+    pushNewMessage('[DELETE]', JSON.stringify(previousStat), filePath);
   };
 
   function changeListener(changeType, filePath,

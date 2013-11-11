@@ -46,14 +46,14 @@
     <ol data-bind="foreach: messages">
       <li>
         <strong>
+          <span data-bind="text: path"></span>
+        </strong>
+        <strong>
           <span data-bind="text: type"></span>
         </strong>
         <span>
           <span data-bind="text: message"></span>
         </span>
-        <strong>
-          <span data-bind="text: path"></span>
-        </strong>
       </li>
     </ol>
   </div>
