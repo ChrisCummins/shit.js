@@ -1,37 +1,5 @@
 <script>
 
-  function sort(arr, property, desc) {
-    function sorter(aa, bb) {
-      var a = !desc ? aa : bb;
-      var b = !desc ? bb : aa;
-
-      if (typeof a[property] == "number") {
-        return (a[property] - b[property]);
-      } else {
-        return ((a[property] < b[property])
-                ? -1 : ((a[property] > b[property]) ? 1 : 0));
-      }
-    }
-
-    return arr.sort(sorter);
-  };
-
-  function print_msg (msg, style, time) {
-    $('#msg').html('<div class="msg msg-'+ style +'">' + msg + '</div>');
-    $('#msg').fadeIn();
-    setTimeout(function() {
-      $('#msg').fadeOut()
-    }, time || 500);
-  }
-
-  function show_error(msg){
-    print_msg(msg, 'error');
-  }
-
-  function show_ok(msg) {
-    print_msg(msg, 'ok');
-  }
-
   $(document).ready(function() {
     var server = 'http://' + real_time_server.host + ':' +
       real_time_server.port;
