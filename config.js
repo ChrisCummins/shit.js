@@ -8,7 +8,7 @@ exports.values = {
   aikos: {
     context: {
       rootPermissions: false,
-      daemon: true,
+      daemon: false,
       stdout: '/var/log/aikos',
       stderr: '/var/log/aikos'
     },

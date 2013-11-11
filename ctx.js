@@ -1,3 +1,5 @@
+var daemon = require('daemon');
+
 var INIT_PID = 1;
 var ROOT_UID = 0;
 
@@ -25,6 +27,23 @@ function exitIfNoRootPermissions() {
  * Initialise daemon context.
  */
 function initDaemon(config) {
+
+  try {
+
+    /* Set the change root of the process. */
+    process.chdir('/');
+
+    /* Set the file creation mask (umask) of the process. */
+    process.umask(0);
+
+    /* Daemon-ify the process */
+    daemon();
+
+  } catch(error) {
+    console.log(error);
+    console.log('fatal: failed to create daemon context!');
+    process.exit(2);
+  }
 
 }
 
