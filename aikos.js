@@ -35,14 +35,18 @@ var Aikos = function(server) {
   }
 
   function broadcast(sessions, command, data, exception) {
-    for (var i=0, l=sessions.length; i < l ; i++) {
+    for (var i=0; i < sessions.length; i++) {
       if (!exception || sessions[i] != exception)
 	clients[sessions[i]].emit(command, data);
     };
   };
 
   function pushMessage(type, msg, path) {
-    messages.push({ type: type, message: msg, path: path });
+    messages.push({
+      type: type,
+      message: msg,
+      path: path
+    });
 
     broadcast(sessions, 'messages', messages);
   };
@@ -50,8 +54,8 @@ var Aikos = function(server) {
   socket.on('connection', function(client) {
 
     client.on('disconnect', function() {
-      for (var i = 0, l = sessions.length; i < l ;  i++) {
-	if (sessions[i] == client.id){
+      for (var i = 0; i < sessions.length; i++) {
+	if (sessions[i] == client.id) {
 	  delete clients[client.id];
 	  sessions.splice(i,1);
 	  break;
