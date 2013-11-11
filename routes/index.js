@@ -4,4 +4,10 @@ exports.configure = function(app) {
       title: 'Aikos'
     });
   });
+
+  app.get('/theme.html', function(req, res) {
+    res.render('theme.html', {
+      title: 'Aikos Theme'
+    });
+  });
 };
