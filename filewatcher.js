@@ -2,43 +2,36 @@ var watchr = require('watchr');
 
 var FileWatcher = function(path, args) {
 
-  function pushMessage(type, msg, path) {
-    console.log(type + ', ' + msg + ', ' + path);
-  }
-
   watchr.watch({
     path: path,
     persistent: true,
     duplicateDelay: 2000,
     listeners: {
       log: function(logLevel) {
-        var array = Array.prototype.slice.call(arguments, 0);
-
-        // pushMessage('Debug', array, '');
+        // console.log('a log message occured:', arguments);
       },
       error: function(error) {
-        pushMessage('Error', error, '');
+        console.log('an error occured:', error);
       },
       watching: function(error, watcherInstance, isWatching) {
-        if (err) {
-          pushMessage('Error', error, watcherInstance.path);
+        if (error) {
+          console.log("watching the path " + watcherInstance.path + " failed with error", error);
         } else {
-          pushMessage("Log", 'Watching completed', watcherInstance.path);
+          console.log("watching the path " + watcherInstance.path + " completed");
         }
       },
       change: function(changeType, filePath,
                        currentStat, previousStat) {
-        pushMessage('Change',
-                    changeType + ', ' + currentState + ', ' + previousStat,
-                    filePath);
+        console.log('a change event occured:',arguments);
       }
     },
     next: function(error, watchers) {
       if (error) {
-        pushMessage('Error', error, '');
+        return console.log("watching everything failed with error", error);
       } else {
-        pushMessage('Log', 'Watching completed', '');
+        console.log('watching everything completed', watchers);
       }
+
     }
   });
 
