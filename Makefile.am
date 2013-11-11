@@ -2,6 +2,8 @@ noinst_SCRIPTS = aikosd
 
 CLEANFILES = $(noinst_SCRIPTS)
 
+SUBDIRS = www
+
 # Generating executables from Python scripts
 %: %.py
 	$(INSTALL) --mode=755 $< $@

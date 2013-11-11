@@ -44,4 +44,6 @@ AM_PATH_PYTHON([2.5])
 
 AC_OUTPUT([
 	Makefile
+	www/Makefile
+	www/css/Makefile
 ])
