@@ -22,10 +22,22 @@ function exitIfNoRootPermissions() {
 }
 
 /*
+ * Initialise daemon context.
+ */
+function initDaemon(config) {
+
+}
+
+/*
  * Initialise process context.
  */
 function init(config) {
+
   if (config.rootPermissions)
     exitIfNoRootPermissions();
+
+  if (config.daemon)
+    initDaemon(config);
+
 }
 module.exports.init = init;

@@ -8,6 +8,9 @@ exports.values = {
   aikos: {
     context: {
       rootPermissions: false,
+      daemon: true,
+      stdout: '/var/log/aikos',
+      stderr: '/var/log/aikos'
     },
     files: {
       '/home/chris/src/aikosd/Documentation': {
