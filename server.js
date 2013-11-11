@@ -11,7 +11,7 @@ var aikos = new Aikos(app);
 console.log('Server listening on port %d in %s mode.',
             app.address().port, app.settings.env);
 
-process.on('SIGINT', function () {
+process.on('SIGINT', function() {
 	app.close();
 	console.log('\nShutting down server.');
 	process.exit(0);
