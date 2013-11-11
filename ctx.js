@@ -13,6 +13,11 @@ var logger = new (winston.Logger)({
   });
 module.exports.logger = logger;
 
+/* Setup exception logger */
+winston.handleExceptions(new winston.transports.File({
+  filename: '/var/log/aikos.error'
+}));
+
 /*
  * Checks whether process has root permissions or not.
  *
