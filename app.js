@@ -35,7 +35,7 @@ exports.getApp = function(config) {
     app.use(express.errorHandler());
   });
 
-  require('./routes/index').configure(app);
+  require('./routes').configure(app);
 
   return app;
 };

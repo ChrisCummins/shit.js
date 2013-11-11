@@ -2,7 +2,7 @@ var config = require('./config').values;
 var util = require('./util');
 var watchr = require('watchr');
 
-exports.createWatch = function(server) {
+exports.createAikos = function(server) {
 
   var io = require('socket.io').listen(server);
   var socket = io.sockets;
@@ -26,7 +26,7 @@ exports.createWatch = function(server) {
   };
 
   watchr.watch({
-    paths: ['test'],
+    paths: config.aikos.paths,
     listeners: {
       log: function(logLevel) {
         var array = Array.prototype.slice.call(arguments, 0);
