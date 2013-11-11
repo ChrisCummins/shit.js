@@ -6,6 +6,9 @@ exports.values = {
     }
   },
   aikos: {
+    context: {
+      rootPermissions: false,
+    },
     files: {
       '/home/chris/src/aikosd/Documentation': {
         active: false
