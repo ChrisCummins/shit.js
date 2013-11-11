@@ -1,6 +1,8 @@
 <script>
 
   $(document).ready(function() {
+    var messages = [];
+
     var server = 'http://' + real_time_server.host + ':' +
       real_time_server.port;
     var socket = io.connect(server);
@@ -16,7 +18,15 @@
                           'disconnected</label>');
     });
 
-    socket.on('messages', function(messages) {
+    socket.on('messages', function(msgs) {
+      messages = msgs;
+
+      $('#messages').html(watch.messages(messages));
+    });
+
+    socket.on('newMessage', function(msg) {
+      messages.push(msg);
+
       $('#messages').html(watch.messages(messages));
     });
 
@@ -35,7 +45,7 @@
 <div class="page-header">
   <div class="row">
     <div class="col-lg-12">
-      <h1>Control Panel</h1>
+      <h1>Activity Stream</h1>
       <p class="lead">Intrusion Detection System for Linux filesystems</p>
     </div>
   </div>

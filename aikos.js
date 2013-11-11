@@ -22,14 +22,19 @@ var Aikos = function(server) {
     };
   };
 
+  function pushAllMessages() {
+    broadcast(sessions, 'messages', messages);
+  }
+
   function pushNewMessage(type, msg, path) {
-    messages.push({
+    var msg = {
       type: type,
       message: msg,
       path: path
-    });
+    };
 
-    broadcast(sessions, 'messages', messages);
+    messages.push(msg);
+    broadcast(sessions, 'newMessage', msg);
   };
 
   socket.on('connection', function(client) {
@@ -48,7 +53,7 @@ var Aikos = function(server) {
       util.add(sessions, client.id);
       clients[client.id] = client;
 
-      broadcast(sessions, 'messages', messages);
+      pushAllMessages();
     });
 
   });
