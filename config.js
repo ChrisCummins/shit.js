@@ -6,6 +6,13 @@ exports.values = {
     }
   },
   aikos: {
-    paths: ['/var/www']
+    files: {
+      '/home/chris/src/aikosd': {
+        active: true
+      },
+      '/home/chris/src/aikosd/Documentation': {
+        active: false
+      }
+    }
   }
 }

@@ -1,6 +1,6 @@
 var config = require('./config').values;
 var util = require('./util');
-var watchr = require('watchr');
+var FileWatcher = require('./filewatcher');
 
 var Aikos = function(server) {
 
@@ -11,6 +11,8 @@ var Aikos = function(server) {
   var sessions = [];
 
   var messages = [];
+
+  var filewatchers = [];
 
   function broadcast(sessions, command, data, exception) {
     for (var i=0, l=sessions.length; i < l ; i++) {
@@ -25,38 +27,9 @@ var Aikos = function(server) {
     broadcast(sessions, 'messages', messages);
   };
 
-  watchr.watch({
-    paths: config.aikos.paths,
-    listeners: {
-      log: function(logLevel) {
-        var array = Array.prototype.slice.call(arguments, 0);
-
-        pushMessage('Debug', array, '');
-      },
-      error: function(error) {
-        pushMessage('Error', error, '');
-      },
-      watching: function(error, watcherInstance, isWatching) {
-        if (err) {
-          pushMessage('Error', error, watcherInstance.path);
-        } else {
-          pushMessage("Log", 'Watching completed', watcherInstance.path);
-        }
-      },
-      change: function(changeType, filePath,
-                       fileCurrentStat, filePreviousStat) {
-        pushMessage('Change', changeType + ', ' + fileCurrentState +
-                    ', ' + filePreviousStat, filePath);
-      }
-    },
-    next: function(error, watchers) {
-      if (error) {
-        pushMessage('Error', error, '');
-      } else {
-        pushMessage('Log', 'Watching completed', '');
-      }
-    }
-  });
+  for (var f in config.aikos.files) {
+    filewatchers.push(new FileWatcher(f, config.aikos.files[f]));
+  }
 
   socket.on('connection', function(client) {
 
@@ -81,4 +54,4 @@ var Aikos = function(server) {
 
 };
 
-module.exports = Aikos
+module.exports = Aikos;
