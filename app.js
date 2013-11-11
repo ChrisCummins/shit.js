@@ -9,7 +9,7 @@ exports.getApp = function(config) {
   }
 
   app.configure(function(){
-    app.set('views', __dirname + '/html');
+    app.set('views', __dirname + '/www');
     app.set('view engine', 'ejs');
     app.register('.html', require('ejs'));
     app.register('.ejs', require('ejs'));
