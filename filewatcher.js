@@ -23,6 +23,14 @@ var FileWatcher = function(path, args) {
     console.log('a change event occured:',arguments);
   };
 
+  function nextListener(error, watcher) {
+    if (error) {
+      return console.log("watching everything failed with error", error);
+    } else {
+      console.log('watching everything completed', watcher);
+    }
+  };
+
   watchr.watch({
     path: path,
     persistent: true,
@@ -33,14 +41,7 @@ var FileWatcher = function(path, args) {
       watching: watchingListener,
       change: changeListener,
     },
-    next: function(error, watchers) {
-      if (error) {
-        return console.log("watching everything failed with error", error);
-      } else {
-        console.log('watching everything completed', watchers);
-      }
-
-    }
+    next: nextListener
   });
 
 };
