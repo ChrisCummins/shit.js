@@ -21,9 +21,38 @@ var FileWatcher = function(path, args) {
     }
   };
 
+  function updateListener(filePath, currentStat, previousStat) {
+    console.log('update! ', arguments);
+  };
+
+  function createListener(filePath, currentStat, previousStat) {
+    console.log('[CREATE] path: ' + filePath + ', currentState: ' + currentStat +
+                ', previousStat: ' + previousStat);
+    console.log(currentStat);
+    // console.log('create! ', arguments);
+  };
+
+  function deleteListener(filePath, previousStat) {
+    console.log('delete! ', arguments);
+  };
+
   function changeListener(changeType, filePath,
                           currentStat, previousStat) {
-    console.log('a change event occured:',arguments);
+    switch (changeType) {
+    case 'update':
+      updateListener(filePath, currentStat, previousStat);
+      break;
+    case 'create':
+      createListener(filePath, currentStat, previousStat);
+      break;
+    case 'delete':
+      deleteListener(filePath, previousStat);
+      break;
+    default:
+      console.log('Unhandled changeType: ' + changeType);
+      break;
+    }
+    // console.log('a change event occured:',arguments);
   };
 
   function nextListener(error, watcher) {
