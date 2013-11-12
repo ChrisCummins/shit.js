@@ -5,6 +5,9 @@ var winston = require('winston');
 var INIT_PID = 1;
 var ROOT_UID = 0;
 
+/*
+ * The daemon logger.
+ */
 var logger = new (winston.Logger)({
     transports: [
       new (winston.transports.Console)(),
@@ -86,12 +89,16 @@ function createPidFile(path) {
  */
 function init(config) {
 
+  /* Root permissions check */
   if (config.rootPermissions)
     exitIfNoRootPermissions();
 
+  /* Daemon context check */
   if (config.daemon)
     initDaemon(config);
 
+  /* Setup our PID file. This must be done after the daemon context init as our
+   * PID will change in the fork process. */
   createPidFile(config.pidfile);
 
   /* Set process name */
