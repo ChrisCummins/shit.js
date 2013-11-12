@@ -56,16 +56,6 @@ function getRootPermission() {
 module.exports.getRootPermission = getRootPermission;
 
 /*
- * Checks whether we have root permissions, else fails noisily.
- */
-function exitIfNoRootPermissions() {
-  if (!getRootPermission()) {
-    console.log('fatal: must be ran as root!');
-    process.exit(3);
-  }
-}
-
-/*
  * Initialise daemon context.
  */
 function initDaemon(config) {
@@ -90,39 +80,49 @@ function initDaemon(config) {
 }
 
 /*
- * Initialise the exception logger. Logs to the filename specified in the
- * config. If not given, default to '/var/log/aikosd.error'.
- */
-function initErrorLog() {
-  /* Setup the daemon exception logger */
-  winston.handleExceptions(new winston.transports.File({
-    filename: config.stderr || '/var/log/aikosd.error'
-  }));
-}
-
-/*
- * Create a Process ID file. The PID file is deleted on program exit.
- */
-function createPidFile(path) {
-  var pid = process.pid + '\n';
-
-  fs.writeFile(path, pid, function(error) {
-    if (error)
-      console.log('fatal: unable to write PID file \'' + path + '\'!');
-  });
-
-  process.on('SIGINT', function() {
-    fs.unlink(path, function(error) {
-      if (error)
-        console.log('fatal: unable to remove PID file \'' + path + '\'!');
-    });
-  });
-}
-
-/*
  * Initialise process context.
  */
 function init(config) {
+
+  /*
+   * Checks whether we have root permissions, else fails noisily.
+   */
+  function exitIfNoRootPermissions() {
+    if (!getRootPermission()) {
+      console.log('fatal: must be ran as root!');
+      process.exit(3);
+    }
+  }
+
+  /*
+   * Create a Process ID file. The PID file is deleted on program exit.
+   */
+  function createPidFile(path) {
+    var pid = process.pid + '\n';
+
+    fs.writeFile(path, pid, function(error) {
+      if (error)
+        console.log('fatal: unable to write PID file \'' + path + '\'!');
+    });
+
+    process.on('SIGINT', function() {
+      fs.unlink(path, function(error) {
+        if (error)
+          console.log('fatal: unable to remove PID file \'' + path + '\'!');
+      });
+    });
+  }
+
+  /*
+   * Initialise the exception logger. Logs to the filename specified in the
+   * config. If not given, default to '/var/log/aikosd.error'.
+   */
+  function initErrorLog() {
+    /* Setup the daemon exception logger */
+    winston.handleExceptions(new winston.transports.File({
+      filename: config.stderr || '/var/log/aikosd.error'
+    }));
+  }
 
   /* Root permissions check */
   if (config.rootPermissions)
