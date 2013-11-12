@@ -65,7 +65,7 @@ var Aikos = function(server) {
   /*
    * Push a new message to sessions.
    */
-  function pushNewMessage(type, msg, path) {
+  function pushNewMessage(type, path, msg) {
     var msg = {
       type: type,
       message: msg,
@@ -101,7 +101,7 @@ var Aikos = function(server) {
   });
 
   function errorListener(error) {
-    pushNewMessage('[ERROR]', JSON.stringify(error), '');
+    pushNewMessage('[ERROR]', '', JSON.stringify(error));
   };
 
   function watchingListener(error, watcherInstance, isWatching) {
@@ -113,15 +113,15 @@ var Aikos = function(server) {
   };
 
   function updateListener(filePath, currentStat, previousStat) {
-    pushNewMessage('[UPDATE]', JSON.stringify(currentStat), filePath);
+    pushNewMessage('[UPDATE]', filePath, JSON.stringify(currentStat));
   };
 
   function createListener(filePath, currentStat, previousStat) {
-    pushNewMessage('[CREATE]', JSON.stringify(currentStat), filePath);
+    pushNewMessage('[CREATE]', filePath, JSON.stringify(currentStat));
   };
 
   function deleteListener(filePath, previousStat) {
-    pushNewMessage('[DELETE]', JSON.stringify(previousStat), filePath);
+    pushNewMessage('[DELETE]', filePath, JSON.stringify(previousStat));
   };
 
   function changeListener(changeType, filePath,
