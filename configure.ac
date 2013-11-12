@@ -13,7 +13,7 @@ m4_define([shit_version],
 AC_SUBST([SHIT_VERSION_MAJOR], [shit_major_version])
 AC_SUBST([SHIT_VERSION_MINOR], [shit_minor_version])
 AC_SUBST([SHIT_VERSION_MICRO], [shit_micro_version])
-AC_SUBST([SHIT_VERSION], [shit_version])
+AC_SUBST([SHIT_VERSION],       [shit_version])
 
 AC_INIT([shit],
 	[shit_version],
