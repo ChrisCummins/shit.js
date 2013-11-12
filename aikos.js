@@ -67,6 +67,7 @@ var Aikos = function(server) {
    */
   function pushNewMessage(type, path, msg) {
     var msg = {
+      timestamp: new Date().getTime(),
       type: type,
       message: msg,
       path: path
