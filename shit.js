@@ -1,6 +1,5 @@
 /*
- * shit.js - The main shit daemon. Manages the filesystem watchers and
- *           sockets.io clients and sessions.
+ * shit.js - Events Analyser
  *
  * Available exports:
  *     () The Shit class.
