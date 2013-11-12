@@ -1,20 +1,53 @@
-var ctx = require('./ctx');
-var config = require('./config');
-var util = require('./util');
-var FileWatcher = require('./filewatcher');
+/*
+ * aikos.js - The main Aikos daemon. Manages the filesystem watchers and
+ *            sockets.io clients and sessions.
+ *
+ * Available exports:
+ *     () The Aikos class.
+ *
+ * Usage:
+ *     var Aikos = require('./aikos');
+ *
+ *     var aikos = new Aikos(); // Instantiate class
+ *
+ * Config settings:
+ */
 
+/* Local imports */
+var config = require('./config');
+var ctx = require('./ctx');
+var FileWatcher = require('./filewatcher');
+var util = require('./util');
+
+/*
+ * The Aikos class.
+ *
+ * @param server An http server.
+ */
 var Aikos = function(server) {
 
+  /* Sockets */
   var io = require('socket.io').listen(server);
   var socket = io.sockets;
 
-  var clients = {};
+  /* The server sessions and clients */
   var sessions = [];
+  var clients = {};
 
+  /* The server state */
   var messages = [];
 
+  /* The filewatcher nodes */
   var filewatchers = [];
 
+  /*
+   * Broadcast a message
+   *
+   * @param sessions
+   * @param command
+   * @param data
+   * @param exception
+   */
   function broadcast(sessions, command, data, exception) {
     for (var i=0; i < sessions.length; i++) {
       if (!exception || sessions[i] != exception)
@@ -22,10 +55,16 @@ var Aikos = function(server) {
     };
   };
 
+  /*
+   * Push all messages to sessions.
+   */
   function pushAllMessages() {
     broadcast(sessions, 'messages', messages);
   }
 
+  /*
+   * Push a new message to sessions.
+   */
   function pushNewMessage(type, msg, path) {
     var msg = {
       type: type,
@@ -37,6 +76,9 @@ var Aikos = function(server) {
     broadcast(sessions, 'newMessage', msg);
   };
 
+  /*
+   * Our socket connection.
+   */
   socket.on('connection', function(client) {
 
     client.on('disconnect', function() {
@@ -104,29 +146,42 @@ var Aikos = function(server) {
     }
   };
 
-  function createFileWatchers() {
-    for (var f in config.aikos.files) {
-      filewatchers.push(new FileWatcher(f, config.aikos.files[f],
-                                        logListener, errorListener,
-                                        watchingListener, changeListener));
-    }
-  };
-
-  function closeFileWatchers() {
-    console.log('\nShutting down filewatchers.');
-    for (var i = 0; i < filewatchers.length; i++)
-      filewatchers[i].close();
-  };
-
+  /*
+   * Initial setup.
+   */
   function init() {
-    createFileWatchers();
 
-    process.on('SIGINT', function() {
-      closeFileWatchers();
-    });
+    function createFileWatchers() {
+      for (var f in config.aikos.files) {
+        filewatchers.push(new FileWatcher(f, config.aikos.files[f],
+                                          logListener, errorListener,
+                                          watchingListener, changeListener));
+      }
+    };
+
+    createFileWatchers();
+  }
+
+  /*
+   * Cleanup close.
+   */
+  function close() {
+
+    function closeFileWatchers() {
+      console.log('\nShutting down filewatchers.');
+      for (var i = 0; i < filewatchers.length; i++)
+        filewatchers[i].close();
+    };
+
+    closeFileWatchers();
   }
 
   init();
+
+  /* Close on exit */
+  process.on('SIGINT', function() {
+    close();
+  });
 };
 
 module.exports = Aikos;
