@@ -13,7 +13,7 @@
  */
 
 /* Local imports */
-var config = require('./config');
+var config = require('./config').shit;
 var FileWatcher = require('./filewatcher');
 var Nd = require('./nd');
 var util = require('./util');
@@ -67,7 +67,7 @@ var Shit = function(server) {
   function init() {
 
     function createFileWatchers() {
-      for (var f in config.shit.files) {
+      for (var f in config.filewatchers) {
         filewatchers.push(new FileWatcher(f, config.shit.files[f],
                                           errorListener,
                                           watchingListener, changeListener));

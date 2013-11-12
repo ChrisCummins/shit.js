@@ -16,7 +16,7 @@ module.exports = {
       stderr: '/var/log/shitd.error',
       pidfile: '/tmp/shitd.pid'
     },
-    files: {
+    filewatchers: {
       '/home/chris/src/shit.js/': {
         active: false
       }
