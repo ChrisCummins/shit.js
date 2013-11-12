@@ -1,3 +1,25 @@
+/*
+ * ctx.js - The daemon context. Provides the process management, assigning to
+ *          init, creates the PID file, checks for root permissions etc.
+ *
+ * Available exports:
+ *     logger              The daemon logger.
+ *     getRootPermission() Check for root permissions.
+ *     init()              Initialise daemon context (only call this once!).
+ *
+ * Usage:
+ *     var ctx = require('./ctx');
+ *
+ * Config settings:
+ *    context: {
+ *      rootPermissions <bool>   Require root permissions.
+ *      daemon          <bool>   Whether to fork and detach process context.
+ *      stdout          <string> Path to standard output log file.
+ *      stderr          <string> Path to standard error log file.
+ *      pidfile         <string> Path to PID file.
+ *    }
+ */
+
 /* Global imports */
 var fs = require('fs');
 var daemon = require('daemon');
