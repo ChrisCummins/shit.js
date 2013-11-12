@@ -16,11 +16,6 @@ var logger = new (winston.Logger)({
   });
 module.exports.logger = logger;
 
-/* Setup exception logger */
-winston.handleExceptions(new winston.transports.File({
-  filename: '/var/log/aikos.error'
-}));
-
 /*
  * Checks whether process has root permissions or not.
  *
@@ -66,6 +61,16 @@ function initDaemon(config) {
 }
 
 /*
+ * Initialise the exception logger
+ */
+function initErrorLog() {
+  /* Setup the daemon exception logger */
+  winston.handleExceptions(new winston.transports.File({
+    filename: '/var/log/aikos.error'
+  }));
+}
+
+/*
  * Create a Process ID file. The PID file is deleted on program exit.
  */
 function createPidFile(path) {
@@ -103,5 +108,8 @@ function init(config) {
 
   /* Set process name */
   process.title = 'aikosd'
+
+  /* Setup the error logger */
+  initErrorLog();
 }
 module.exports.init = init;
