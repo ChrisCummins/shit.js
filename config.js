@@ -11,7 +11,7 @@ module.exports = {
   shit: {
     context: {
       rootPermissions: true,
-      daemon: true,
+      daemon: false,
       stdout: '/var/log/shitd',
       stderr: '/var/log/shitd.error',
       pidfile: '/tmp/shitd.pid'
