@@ -112,7 +112,7 @@ function init(config) {
 
   /* Setup our PID file. This must be done after the daemon context init as our
    * PID will change in the fork process. */
-  createPidFile(config.pidfile);
+  createPidFile(config.pidfile || '/tmp/aikosd.pid');
 
   /* Set process name */
   process.title = 'aikosd'
