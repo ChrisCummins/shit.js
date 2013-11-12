@@ -10,12 +10,15 @@ var INIT_PID = 1;
 var ROOT_UID = 0;
 
 /*
- * The daemon logger.
+ * The daemon logger. Logs to the filename specified in the config. If not
+ * given, default to '/var/log/aikosd'.
  */
 var logger = new (winston.Logger)({
     transports: [
       new (winston.transports.Console)(),
-      new (winston.transports.File)({ filename: config.stdout })
+      new (winston.transports.File)({
+        filename: config.stdout || '/var/log/aikosd'
+      })
     ]
   });
 module.exports.logger = logger;
@@ -65,12 +68,13 @@ function initDaemon(config) {
 }
 
 /*
- * Initialise the exception logger
+ * Initialise the exception logger. Logs to the filename specified in the
+ * config. If not given, default to '/var/log/aikosd.error'.
  */
 function initErrorLog() {
   /* Setup the daemon exception logger */
   winston.handleExceptions(new winston.transports.File({
-    filename: config.stderr
+    filename: config.stderr || '/var/log/aikosd.error'
   }));
 }
 
