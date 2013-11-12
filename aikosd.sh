@@ -5,7 +5,7 @@
 
 PROGRAM=aikosd
 
-PIDFILE="/tmp/$PROGRAM"
+PIDFILE="/tmp/$PROGRAM.pid"
 
 START_CMD="node server.js"
 

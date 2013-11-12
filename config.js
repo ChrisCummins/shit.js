@@ -12,9 +12,9 @@ module.exports = {
     context: {
       rootPermissions: true,
       daemon: true,
-      stdout: '/var/log/aikos',
-      stderr: '/var/log/aikos.error',
-      pidfile: '/tmp/aikosd'
+      stdout: '/var/log/aikosd',
+      stderr: '/var/log/aikosd.error',
+      pidfile: '/tmp/aikosd.pid'
     },
     files: {
       '/home/chris/src/aikosd/': {
