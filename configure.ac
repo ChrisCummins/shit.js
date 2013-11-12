@@ -19,16 +19,6 @@ AC_INIT([shit],
 	[shit_version],
 	[chrisc.101@gmail.com])
 
-# Set prefix
-if test "x$prefix" = "xNONE" ; then
-  prefix="/usr/local"
-fi
-if test "x$exec_prefix" = "xNONE" ; then
-  exec_prefix=$prefix
-fi
-PREFIX=$prefix
-AC_SUBST([PREFIX])
-
 # Check for install
 AC_PROG_INSTALL
 
