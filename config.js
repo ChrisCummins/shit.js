@@ -17,7 +17,7 @@ module.exports = {
       pidfile: '/tmp/aikosd'
     },
     files: {
-      '/home/chris/src/aikosd/Documentation': {
+      '/home/chris/src/aikosd/': {
         active: false
       }
     }
