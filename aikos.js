@@ -1,5 +1,5 @@
 var ctx = require('./ctx');
-var config = require('./config').values;
+var config = require('./config');
 var util = require('./util');
 var FileWatcher = require('./filewatcher');
 

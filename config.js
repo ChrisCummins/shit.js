@@ -1,4 +1,4 @@
-exports.values = {
+module.exports = {
   version: '0.0.1',
   server: {
     production: {

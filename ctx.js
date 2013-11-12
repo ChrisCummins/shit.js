@@ -2,7 +2,7 @@ var fs = require('fs');
 var daemon = require('daemon');
 var winston = require('winston');
 
-var config = require('./config').values.aikos.context;
+var config = require('./config').aikos.context;
 
 var INIT_PID = 1;
 var ROOT_UID = 0;

@@ -3,7 +3,7 @@ var Aikos = require('./aikos');
 
 var port = parseInt(process.argv[2]) || 8080;
 
-var config = require('./config').values;
+var config = require('./config');
 var ctx = require('./ctx');
 
 ctx.init(config.aikos.context);
