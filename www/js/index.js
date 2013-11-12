@@ -1,21 +1,42 @@
 $(document).ready(function() {
-  var messages = [];
+  var activities = [];
 
   var server = 'http://' + real_time_server.host + ':' +
     real_time_server.port;
   var socket = io.connect(server);
 
-  function newMessage(msg) {
+  function newActivity(msg) {
+    var desc = '';
+
+    switch (parseInt(msg.type)) {
+    case -1:
+      desc = 'ERROR';
+      break;
+    case 0:
+      desc = 'CREATE';
+      break;
+    case 1:
+      desc = 'UPDATE';
+      break;
+    case 2:
+      desc = 'DELETE';
+      break;
+    default:
+      desc = 'UNKNOWN';
+      break;
+    }
+
     return {
       timestamp: new Date(msg.timestamp),
       path: msg.path,
-      type: msg.type,
+      type: parseInt(msg.type),
+      description: desc,
       message: msg.message
     };
   }
 
-  function pushMessage(msg) {
-    messages.push(newMessage(msg));
+  function addNewActivity(msg) {
+    activities.push(newActivity(msg));
   }
 
   socket.on('connect', function() {
@@ -30,25 +51,25 @@ $(document).ready(function() {
   });
 
   socket.on('messages', function(msgs) {
-    for (var i = 0; i < messages.length; i++)
-      messages.pop();
+    for (var i = 0; i < activities.length; i++)
+      activities.pop();
 
     for (var i = 0; i < msgs.length; i++)
-      pushMessage(msgs[i]);
+      addNewActivity(msgs[i]);
 
-    $('#messages').html(watch.messages(messages));
+    $('#activities').html(watch.activities(activities));
   });
 
   socket.on('newMessage', function(msg) {
-    pushMessage(msg);
+    addNewActivity(msg);
 
-    $('#messages').html(watch.messages(messages));
+    $('#activities').html(watch.activities(activities));
   });
 
   function Watch() {
     var self=this;
     self.name = ko.observable();
-    self.messages = ko.observableArray();
+    self.activities = ko.observableArray();
   };
 
   var watch = new Watch();

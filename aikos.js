@@ -64,11 +64,18 @@ var Aikos = function(server) {
 
   /*
    * Push a new message to sessions.
+   *
+   * Schema:
+   *
+   *  type: (int)  -1 error
+   *                0 create
+   *                1 update
+   *                2 delete
    */
   function pushNewMessage(type, path, msg) {
     var msg = {
       timestamp: new Date().getTime(),
-      type: type,
+      type: parseInt(type),
       message: msg,
       path: path
     };
@@ -102,7 +109,7 @@ var Aikos = function(server) {
   });
 
   function errorListener(error) {
-    pushNewMessage('[ERROR]', '', JSON.stringify(error));
+    pushNewMessage(-1, '', JSON.stringify(error));
   };
 
   function watchingListener(error, watcherInstance, isWatching) {
@@ -114,15 +121,15 @@ var Aikos = function(server) {
   };
 
   function updateListener(filePath, currentStat, previousStat) {
-    pushNewMessage('[UPDATE]', filePath, JSON.stringify(currentStat));
+    pushNewMessage(1, filePath, JSON.stringify(currentStat));
   };
 
   function createListener(filePath, currentStat, previousStat) {
-    pushNewMessage('[CREATE]', filePath, JSON.stringify(currentStat));
+    pushNewMessage(0, filePath, JSON.stringify(currentStat));
   };
 
   function deleteListener(filePath, previousStat) {
-    pushNewMessage('[DELETE]', filePath, JSON.stringify(previousStat));
+    pushNewMessage(2, filePath, JSON.stringify(previousStat));
   };
 
   function changeListener(changeType, filePath,
