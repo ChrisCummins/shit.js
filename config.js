@@ -12,12 +12,12 @@ module.exports = {
     context: {
       rootPermissions: true,
       daemon: true,
-      stdout: '/var/log/aikosd',
-      stderr: '/var/log/aikosd.error',
-      pidfile: '/tmp/aikosd.pid'
+      stdout: '/var/log/shitd',
+      stderr: '/var/log/shitd.error',
+      pidfile: '/tmp/shitd.pid'
     },
     files: {
-      '/home/chris/src/aikosd/': {
+      '/home/chris/src/shit.js/': {
         active: false
       }
     }

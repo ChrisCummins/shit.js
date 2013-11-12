@@ -3,7 +3,7 @@
 # Daemon control script
 #
 
-PROGRAM=aikosd
+PROGRAM=shitd
 
 PIDFILE="/tmp/$PROGRAM.pid"
 
