@@ -1,4 +1,4 @@
-noinst_SCRIPTS = aikosd
+noinst_SCRIPTS = shitd
 
 CLEANFILES = $(noinst_SCRIPTS)
 
