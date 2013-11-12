@@ -93,5 +93,8 @@ function init(config) {
     initDaemon(config);
 
   createPidFile(config.pidfile);
+
+  /* Set process name */
+  process.title = 'aikosd'
 }
 module.exports.init = init;
