@@ -8,14 +8,14 @@ module.exports = {
       }
     }
   },
+  context: {
+    rootPermissions: true,
+    daemon: false,
+    stdout: '/var/log/shitd',
+    stderr: '/var/log/shitd.error',
+    pidfile: '/tmp/shitd.pid'
+  },
   shit: {
-    context: {
-      rootPermissions: true,
-      daemon: false,
-      stdout: '/var/log/shitd',
-      stderr: '/var/log/shitd.error',
-      pidfile: '/tmp/shitd.pid'
-    },
     filewatchers: {
       '/home/chris/src/shit.js/': {
         active: false

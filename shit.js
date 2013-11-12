@@ -68,9 +68,9 @@ var Shit = function(server) {
 
     function createFileWatchers() {
       for (var f in config.filewatchers) {
-        filewatchers.push(new FileWatcher(f, config.shit.files[f],
-                                          errorListener,
-                                          watchingListener, changeListener));
+        filewatchers.push(new FileWatcher(f, config.filewatchers[f],
+                                          errorListener, watchingListener,
+                                          changeListener));
       }
     };
 

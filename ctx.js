@@ -26,7 +26,7 @@ var daemon = require('daemon');
 var winston = require('winston');
 
 /* Local imports */
-var config = require('./config').shit.context;
+var config = require('./config').context;
 
 var INIT_PID = 1;
 var ROOT_UID = 0;
@@ -58,7 +58,7 @@ module.exports.getRootPermission = getRootPermission;
 /*
  * Initialise daemon context.
  */
-function initDaemon(config) {
+function initDaemon() {
 
   try {
 
@@ -82,7 +82,7 @@ function initDaemon(config) {
 /*
  * Initialise process context.
  */
-function init(config) {
+function init() {
 
   /*
    * Checks whether we have root permissions, else fails noisily.
@@ -130,7 +130,7 @@ function init(config) {
 
   /* Daemon context check */
   if (config.daemon)
-    initDaemon(config);
+    initDaemon();
 
   /* Setup our PID file. This must be done after the daemon context init as our
    * PID will change in the fork process. */

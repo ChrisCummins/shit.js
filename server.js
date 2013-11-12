@@ -6,7 +6,7 @@ var port = parseInt(process.argv[2]) || 8080;
 var config = require('./config');
 var ctx = require('./ctx');
 
-ctx.init(config.shit.context);
+ctx.init();
 
 var app = new App(config).listen(port);
 var shit = new Shit(app);
