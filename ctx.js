@@ -1,7 +1,9 @@
+/* Global imports */
 var fs = require('fs');
 var daemon = require('daemon');
 var winston = require('winston');
 
+/* Local imports */
 var config = require('./config').aikos.context;
 
 var INIT_PID = 1;
