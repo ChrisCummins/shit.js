@@ -17,6 +17,7 @@
 var config = require('./config');
 var ctx = require('./ctx');
 var FileWatcher = require('./filewatcher');
+var Nd = require('./nd');
 var util = require('./util');
 
 /*
@@ -26,90 +27,14 @@ var util = require('./util');
  */
 var Shit = function(server) {
 
-  /* Sockets */
-  var io = require('socket.io').listen(server);
-  var socket = io.sockets;
-
-  /* The server sessions and clients */
-  var sessions = [];
-  var clients = {};
-
-  /* The server state */
-  var messages = [];
+  /* The notification dispatcher */
+  var nd = new Nd(server);
 
   /* The filewatcher nodes */
   var filewatchers = [];
 
-  /*
-   * Broadcast a message
-   *
-   * @param sessions
-   * @param command
-   * @param data
-   * @param exception
-   */
-  function broadcast(sessions, command, data, exception) {
-    for (var i=0; i < sessions.length; i++) {
-      if (!exception || sessions[i] != exception)
-	clients[sessions[i]].emit(command, data);
-    };
-  };
-
-  /*
-   * Push all messages to sessions.
-   */
-  function pushAllMessages() {
-    broadcast(sessions, 'messages', messages);
-  }
-
-  /*
-   * Push a new message to sessions.
-   *
-   * Schema:
-   *
-   *  type: (int)  -1 error
-   *                0 create
-   *                1 update
-   *                2 delete
-   */
-  function pushNewMessage(type, path, msg) {
-    var msg = {
-      timestamp: new Date().getTime(),
-      type: parseInt(type),
-      message: msg,
-      path: path
-    };
-
-    messages.push(msg);
-    broadcast(sessions, 'newMessage', msg);
-  };
-
-  /*
-   * Our socket connection.
-   */
-  socket.on('connection', function(client) {
-
-    client.on('disconnect', function() {
-      for (var i = 0; i < sessions.length; i++) {
-	if (sessions[i] == client.id) {
-	  delete clients[client.id];
-	  sessions.splice(i,1);
-	  break;
-	}
-      };
-    });
-
-    client.on('join', function (data) {
-      util.add(sessions, client.id);
-      clients[client.id] = client;
-
-      pushAllMessages();
-    });
-
-  });
-
   function errorListener(error) {
-    pushNewMessage(-1, '', JSON.stringify(error));
+    nd.dispatchError(error);
   };
 
   function watchingListener(error, watcherInstance, isWatching) {
@@ -120,29 +45,17 @@ var Shit = function(server) {
     }
   };
 
-  function updateListener(filePath, currentStat, previousStat) {
-    pushNewMessage(1, filePath, JSON.stringify(currentStat));
-  };
-
-  function createListener(filePath, currentStat, previousStat) {
-    pushNewMessage(0, filePath, JSON.stringify(currentStat));
-  };
-
-  function deleteListener(filePath, previousStat) {
-    pushNewMessage(2, filePath, JSON.stringify(previousStat));
-  };
-
   function changeListener(changeType, filePath,
                           currentStat, previousStat) {
     switch (changeType) {
     case 'update':
-      updateListener(filePath, currentStat, previousStat);
+      nd.dispatchUpdate(filePath, currentStat, previousStat);
       break;
     case 'create':
-      createListener(filePath, currentStat, previousStat);
+      nd.dispatchCreate(filePath, currentStat, previousStat);
       break;
     case 'delete':
-      deleteListener(filePath, previousStat);
+      nd.dispatchDelete(filePath, previousStat);
       break;
     default:
       console.log('Unhandled changeType: ' + changeType);
