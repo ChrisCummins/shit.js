@@ -14,7 +14,6 @@
 
 /* Local imports */
 var config = require('./config');
-var ctx = require('./ctx');
 var FileWatcher = require('./filewatcher');
 var Nd = require('./nd');
 var util = require('./util');
