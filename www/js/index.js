@@ -5,6 +5,19 @@ $(document).ready(function() {
     real_time_server.port;
   var socket = io.connect(server);
 
+  function newMessage(msg) {
+    return {
+      timestamp: new Date(msg.timestamp),
+      path: msg.path,
+      type: msg.type,
+      message: msg.message
+    };
+  }
+
+  function pushMessage(msg) {
+    messages.push(newMessage(msg));
+  }
+
   socket.on('connect', function() {
     $('#socketio').html('<span class="label label-success">' +
                         'connected</label>');
@@ -17,13 +30,17 @@ $(document).ready(function() {
   });
 
   socket.on('messages', function(msgs) {
-    messages = msgs;
+    for (var i = 0; i < messages.length; i++)
+      messages.pop();
+
+    for (var i = 0; i < msgs.length; i++)
+      pushMessage(msgs[i]);
 
     $('#messages').html(watch.messages(messages));
   });
 
   socket.on('newMessage', function(msg) {
-    messages.push(msg);
+    pushMessage(msg);
 
     $('#messages').html(watch.messages(messages));
   });
