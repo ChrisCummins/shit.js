@@ -1,5 +1,5 @@
 {
-  "name": "aikosd",
+  "name": "shitd",
   "version": "0.0.1",
   "engines": {
     "node": ">= 0.8.0"
@@ -7,7 +7,7 @@
   "private": true,
   "repository": {
     "type": "git",
-    "url": "https://github.com/ChrisCummins/aikosd.git"
+    "url": "https://github.com/ChrisCummins/shitd.git"
   },
   "dependencies": {
     "express": "2.5.0",

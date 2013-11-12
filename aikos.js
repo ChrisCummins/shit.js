@@ -1,14 +1,14 @@
 /*
- * aikos.js - The main Aikos daemon. Manages the filesystem watchers and
- *            sockets.io clients and sessions.
+ * shit.js - The main shit daemon. Manages the filesystem watchers and
+ *           sockets.io clients and sessions.
  *
  * Available exports:
- *     () The Aikos class.
+ *     () The Shit class.
  *
  * Usage:
- *     var Aikos = require('./aikos');
+ *     var Shit = require('./shit');
  *
- *     var aikos = new Aikos(); // Instantiate class
+ *     var shit = new Shit(); // Instantiate class
  *
  * Config settings:
  */
@@ -20,11 +20,11 @@ var FileWatcher = require('./filewatcher');
 var util = require('./util');
 
 /*
- * The Aikos class.
+ * The Shit class.
  *
  * @param server An http server.
  */
-var Aikos = function(server) {
+var Shit = function(server) {
 
   /* Sockets */
   var io = require('socket.io').listen(server);
@@ -156,8 +156,8 @@ var Aikos = function(server) {
   function init() {
 
     function createFileWatchers() {
-      for (var f in config.aikos.files) {
-        filewatchers.push(new FileWatcher(f, config.aikos.files[f],
+      for (var f in config.shit.files) {
+        filewatchers.push(new FileWatcher(f, config.shit.files[f],
                                           errorListener,
                                           watchingListener, changeListener));
       }
@@ -188,4 +188,4 @@ var Aikos = function(server) {
   });
 };
 
-module.exports = Aikos;
+module.exports = Shit;

@@ -1,15 +1,15 @@
 var App = require('./app');
-var Aikos = require('./aikos');
+var Shit = require('./shit');
 
 var port = parseInt(process.argv[2]) || 8080;
 
 var config = require('./config');
 var ctx = require('./ctx');
 
-ctx.init(config.aikos.context);
+ctx.init(config.shit.context);
 
 var app = new App(config).listen(port);
-var aikos = new Aikos(app);
+var shit = new Shit(app);
 
 console.log('Server listening on port %d in %s mode.',
             app.address().port, app.settings.env);

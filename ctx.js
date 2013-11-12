@@ -26,20 +26,20 @@ var daemon = require('daemon');
 var winston = require('winston');
 
 /* Local imports */
-var config = require('./config').aikos.context;
+var config = require('./config').shit.context;
 
 var INIT_PID = 1;
 var ROOT_UID = 0;
 
 /*
  * The daemon logger. Logs to the filename specified in the config. If not
- * given, default to '/var/log/aikosd'.
+ * given, default to '/var/log/shitd'.
  */
 var logger = new (winston.Logger)({
     transports: [
       new (winston.transports.Console)(),
       new (winston.transports.File)({
-        filename: config.stdout || '/var/log/aikosd'
+        filename: config.stdout || '/var/log/shitd'
       })
     ]
   });
@@ -115,12 +115,12 @@ function init(config) {
 
   /*
    * Initialise the exception logger. Logs to the filename specified in the
-   * config. If not given, default to '/var/log/aikosd.error'.
+   * config. If not given, default to '/var/log/shitd.error'.
    */
   function initErrorLog() {
     /* Setup the daemon exception logger */
     winston.handleExceptions(new winston.transports.File({
-      filename: config.stderr || '/var/log/aikosd.error'
+      filename: config.stderr || '/var/log/shitd.error'
     }));
   }
 
@@ -134,10 +134,10 @@ function init(config) {
 
   /* Setup our PID file. This must be done after the daemon context init as our
    * PID will change in the fork process. */
-  createPidFile(config.pidfile || '/tmp/aikosd.pid');
+  createPidFile(config.pidfile || '/tmp/shitd.pid');
 
   /* Set process name */
-  process.title = 'aikosd'
+  process.title = 'shitd'
 
   /* Setup the error logger */
   initErrorLog();

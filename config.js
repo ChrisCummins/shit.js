@@ -8,7 +8,7 @@ module.exports = {
       }
     }
   },
-  aikos: {
+  shit: {
     context: {
       rootPermissions: true,
       daemon: true,
