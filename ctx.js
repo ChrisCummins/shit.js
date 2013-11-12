@@ -2,6 +2,8 @@ var fs = require('fs');
 var daemon = require('daemon');
 var winston = require('winston');
 
+var config = require('./config').values.aikos.context;
+
 var INIT_PID = 1;
 var ROOT_UID = 0;
 
@@ -11,7 +13,7 @@ var ROOT_UID = 0;
 var logger = new (winston.Logger)({
     transports: [
       new (winston.transports.Console)(),
-      new (winston.transports.File)({ filename: '/var/log/aikos' })
+      new (winston.transports.File)({ filename: config.stdout })
     ]
   });
 module.exports.logger = logger;
@@ -66,7 +68,7 @@ function initDaemon(config) {
 function initErrorLog() {
   /* Setup the daemon exception logger */
   winston.handleExceptions(new winston.transports.File({
-    filename: '/var/log/aikos.error'
+    filename: config.stderr
   }));
 }
 
