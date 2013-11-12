@@ -100,12 +100,8 @@ var Aikos = function(server) {
 
   });
 
-  function logListener(logLevel) {
-    // console.log('a log message occured:', arguments);
-  };
-
   function errorListener(error) {
-    console.log('an error occured:', error);
+    pushNewMessage('[ERROR]', JSON.stringify(error), '');
   };
 
   function watchingListener(error, watcherInstance, isWatching) {
@@ -154,7 +150,7 @@ var Aikos = function(server) {
     function createFileWatchers() {
       for (var f in config.aikos.files) {
         filewatchers.push(new FileWatcher(f, config.aikos.files[f],
-                                          logListener, errorListener,
+                                          errorListener,
                                           watchingListener, changeListener));
       }
     };

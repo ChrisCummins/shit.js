@@ -1,11 +1,15 @@
 var watchr = require('watchr');
 var ctx = require('./ctx');
 
-var FileWatcher = function(path, config, logListener, errorListener,
+var FileWatcher = function(path, config, errorListener,
                            watchingListener, changeListener) {
 
   this.path = path;
   this.watcher = null;
+
+  function logListener(logLevel) {
+    ctx.logger.log('ingo', JSON.stringify(arguments));
+  };
 
   function nextListener(error, watcher) {
     if (error) {
