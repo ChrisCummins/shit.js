@@ -13,7 +13,7 @@ exports.values = {
       rootPermissions: true,
       daemon: true,
       stdout: '/var/log/aikos',
-      stderr: '/var/log/aikos',
+      stderr: '/var/log/aikos.error',
       pidfile: '/tmp/aikosd'
     },
     files: {
