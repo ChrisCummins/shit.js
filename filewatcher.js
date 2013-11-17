@@ -21,6 +21,11 @@ var FileWatcher = function(path, config, errorListener,
     this.watcher = watcher;
   };
 
+  this.close = function() {
+    console.log('Closing file watcher \'' + this.path + '\'');
+    watcher.close();
+  };
+
   watchr.watch({
     path: path,
     persistent: true,
@@ -33,11 +38,6 @@ var FileWatcher = function(path, config, errorListener,
     },
     next: nextListener
   });
-
-  this.close = function() {
-    console.log('Closing file watcher \'' + this.path + '\'');
-    watcher.close();
-  };
 
 };
 
