@@ -6,6 +6,7 @@ var FileWatcher = function(path, config, errorListener,
 
   this.path = path;
   this.watcher = null;
+  this.active = config.active;
 
   function logListener(logLevel) {
     ctx.logger.log('ingo', JSON.stringify(arguments));
