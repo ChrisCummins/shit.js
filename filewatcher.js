@@ -23,8 +23,8 @@ var FileWatcher = function(path, config, errorListener,
   };
 
   this.close = function() {
-    console.log('Closing file watcher \'' + this.path + '\'');
     watcher.close();
+    console.log('closing file watcher \'' + this.path + '\'');
   };
 
   watchr.watch({
