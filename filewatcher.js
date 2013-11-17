@@ -1,5 +1,6 @@
 var watchr = require('watchr');
 var ctx = require('./ctx');
+var FileCache = require('./filecache');
 
 var FileWatcher = function(path, config, errorListener,
                            watchingListener, changeListener) {
@@ -7,6 +8,7 @@ var FileWatcher = function(path, config, errorListener,
   this.path = path;
   this.watcher = null;
   this.active = config.active;
+  this.cache = new FileCache(path);
 
   function logListener(logLevel) {
     ctx.logger.log('ingo', JSON.stringify(arguments));
@@ -24,7 +26,9 @@ var FileWatcher = function(path, config, errorListener,
 
   this.close = function() {
     console.log('closing file watcher \'' + this.path + '\'');
-    this.watcher.close();
+    this.cache.close();
+    if (this.watcher !== null)
+      this.watcher.close();
   };
 
   watchr.watch({

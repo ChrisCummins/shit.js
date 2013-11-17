@@ -23,6 +23,7 @@ module.exports = {
       '/tmp/secret.conf': {
         active: true
       }
-    }
+    },
+    cache: '/tmp/shitd/cache/'
   }
 }
