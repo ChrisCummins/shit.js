@@ -26,9 +26,11 @@ var FileCache = function(path) {
   this.push();
 
   this.close = function() {
+    var cmd = 'rm -rf ' + this.cache;
+
     console.log('closing file cache \'' + this.cache + '\'');
 
-    var child = exec('rm -rf ' + this.cache, function(err, out) {});
+    exec(cmd);
   };
 
   function getCacheUID() {
