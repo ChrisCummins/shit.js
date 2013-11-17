@@ -1,15 +1,20 @@
+var fs = require('fs');
+var path = require('path');
 var mkdirp = require('mkdirp');
 var exec = require('child_process').exec;
 var config = require('./config').shit;
 
-var FileCache = function(path) {
+var FileCache = function(srcpath) {
 
-  this.path = path;
+  this.path = srcpath;
   this.uid = getCacheUID();
-  this.cache = config.cache + this.uid;
+  this.cache = config.cache + this.uid + '/';
+
+  if (!fs.lstatSync(this.path).isDirectory())
+    this.cache += path.basename(srcpath);
 
   this.push = function() {
-    var cmd = 'rsync -avh ' + this.path + ' ' + this.cache;
+    var cmd = 'rsync -a ' + this.path + ' ' + this.cache;
 
     console.log(this.cache + ': push!');
 
@@ -17,7 +22,7 @@ var FileCache = function(path) {
   };
 
   this.pull = function() {
-    var cmd = 'rsync -avh ' + this.path + ' ' + this.cache;
+    var cmd = 'rsync -a ' + this.cache + ' ' + this.path;
 
     console.log(this.cache + ': pull!');
 
@@ -26,7 +31,7 @@ var FileCache = function(path) {
 
   console.log('creating file cache \'' + this.cache + '\'');
 
-  mkdirp(this.cache, function(err) {
+  mkdirp(path.dirname(this.cache), function(err) {
     if (err)
       console.log(err);
   });
