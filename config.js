@@ -19,6 +19,9 @@ module.exports = {
     filewatchers: {
       '/home/chris/src/shit.js/': {
         active: false
+      },
+      '/tmp/secret.conf': {
+        active: true
       }
     }
   }
