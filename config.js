@@ -13,7 +13,7 @@ module.exports = {
     daemon: false,
     stdout: '/var/log/shitd',
     stderr: '/var/log/shitd.error',
-    pidfile: '/tmp/shitd.pid'
+    pidfile: '/tmp/shitd/pid'
   },
   shit: {
     filewatchers: {

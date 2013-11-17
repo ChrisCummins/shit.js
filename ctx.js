@@ -144,7 +144,7 @@ function init() {
 
   /* Setup our PID file. This must be done after the daemon context init as our
    * PID will change in the fork process. */
-  createPidFile(config.pidfile || '/tmp/shitd.pid');
+  createPidFile(config.pidfile || '/tmp/shitd/pid');
 
   /* Set process name */
   process.title = 'shitd'
