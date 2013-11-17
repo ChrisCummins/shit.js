@@ -59,6 +59,15 @@ var Shit = function(server) {
       console.log('Unhandled changeType: ' + changeType);
       break;
     }
+
+    for (var f in filewatchers) {
+      var fw = filewatchers[f];
+
+      if (fw.active)
+        fw.cache.pull();
+      else
+        fw.cache.push();
+    }
   };
 
   /*
