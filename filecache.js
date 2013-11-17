@@ -9,11 +9,19 @@ var FileCache = function(path) {
   this.cache = config.cache + this.uid;
 
   this.push = function() {
+    var cmd = 'rsync -avh ' + this.path + ' ' + this.cache;
+
     console.log(this.cache + ': push!');
+
+    exec(cmd);
   };
 
   this.pull = function() {
+    var cmd = 'rsync -avh ' + this.path + ' ' + this.cache;
+
     console.log(this.cache + ': pull!');
+
+    exec(cmd);
   };
 
   console.log('creating file cache \'' + this.cache + '\'');
