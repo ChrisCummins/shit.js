@@ -22,6 +22,8 @@
 
 /* Global imports */
 var fs = require('fs');
+var mkdirp = require('mkdirp');
+var path = require('path');
 var daemon = require('daemon');
 var winston = require('winston');
 
@@ -97,19 +99,27 @@ function init() {
   /*
    * Create a Process ID file. The PID file is deleted on program exit.
    */
-  function createPidFile(path) {
+  function createPidFile(pidfile) {
     var pid = process.pid + '\n';
 
-    fs.writeFile(path, pid, function(error) {
-      if (error)
-        console.log('fatal: unable to write PID file \'' + path + '\'!');
-    });
+    mkdirp(path.dirname(pidfile), function (err) {
+      if (err)
+        console.error(err)
+      else {
 
-    process.on('SIGINT', function() {
-      fs.unlink(path, function(error) {
-        if (error)
-          console.log('fatal: unable to remove PID file \'' + path + '\'!');
-      });
+        fs.writeFile(pidfile, pid, function(error) {
+          if (error)
+            console.log('fatal: unable to write PID file \'' + pidfile + '\'!');
+        });
+
+        process.on('SIGINT', function() {
+          fs.unlink(pidfile, function(error) {
+            if (error)
+              console.log('fatal: unable to remove PID file \'' + pidfile + '\'!');
+          });
+        });
+
+      }
     });
   }
 
