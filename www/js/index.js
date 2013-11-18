@@ -57,13 +57,13 @@ $(document).ready(function() {
     for (var i = 0; i < msgs.length; i++)
       addNewActivity(msgs[i]);
 
-    $('#activities').html(watch.activities(activities));
+    $('#activities').html(watch.activities(activities.slice(0).reverse()));
   });
 
   socket.on('newMessage', function(msg) {
     addNewActivity(msg);
 
-    $('#activities').html(watch.activities(activities));
+    $('#activities').html(watch.activities(activities.slice(0).reverse()));
   });
 
   function Watch() {
