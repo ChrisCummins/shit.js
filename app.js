@@ -1,7 +1,7 @@
 var App = function(config) {
 
   var express = require('express');
-  var app = express.createServer();
+  var server = express.createServer();
   var routes = require('./routes');
 
   function local_env(req, res, next) {
@@ -9,37 +9,37 @@ var App = function(config) {
     next();
   }
 
-  app.configure(function(){
+  server.configure(function(){
     var oneYear = 31557600000;
 
-    app.set('views', __dirname + '/www');
-    app.set('view engine', 'ejs');
-    app.register('.html', require('ejs'));
-    app.register('.ejs', require('ejs'));
-    app.use(express.bodyParser());
-    app.use(express.methodOverride());
-    app.use(express.cookieParser());
+    server.set('views', __dirname + '/www');
+    server.set('view engine', 'ejs');
+    server.register('.html', require('ejs'));
+    server.register('.ejs', require('ejs'));
+    server.use(express.bodyParser());
+    server.use(express.methodOverride());
+    server.use(express.cookieParser());
 
-    app.use(local_env);
-    app.use(app.router);
+    server.use(local_env);
+    server.use(server.router);
 
-    app.use(express.static(__dirname + '/www', { maxAge: oneYear }));
+    server.use(express.static(__dirname + '/www', { maxAge: oneYear }));
   });
 
-  app.configure('development', function(){
-    app.use(express.errorHandler({
+  server.configure('development', function(){
+    server.use(express.errorHandler({
       dumpExceptions: true,
       showStack: true
     }));
   });
 
-  app.configure('production', function (){
-    app.use(express.errorHandler());
+  server.configure('production', function (){
+    server.use(express.errorHandler());
   });
 
-  routes.configure(app);
+  routes.configure(server);
 
-  return app;
+  return server;
 };
 
 module.exports = App;
