@@ -20,6 +20,9 @@ module.exports = {
       '/home/chris/src/shit.js/': {
         active: false
       },
+      '/tmp/secret/': {
+        active: true
+      },
       '/tmp/secret.conf': {
         active: true
       }
