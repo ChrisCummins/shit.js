@@ -1,7 +1,14 @@
 var App = function(config) {
 
+  var fs = require('fs');
+
+  var credentials = {
+    key: fs.readFileSync('key.pem').toString(),
+    cert: fs.readFileSync('cert.pem').toString()
+  };
+
   var express = require('express');
-  var server = express.createServer();
+  var server = express.createServer(credentials);
   var routes = require('./routes');
 
   function local_env(req, res, next) {
