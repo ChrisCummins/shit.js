@@ -20,6 +20,9 @@ var App = function(config) {
     server.use(express.methodOverride());
     server.use(express.cookieParser());
 
+    server.use(express.basicAuth(config.authentication.user,
+                                 config.authentication.pass));
+
     server.use(local_env);
     server.use(server.router);
 

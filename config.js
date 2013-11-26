@@ -15,6 +15,10 @@ module.exports = {
     stderr: '/var/log/shitd.error',
     pidfile: '/tmp/shitd/pid'
   },
+  authentication: {
+    user: 'chris',
+    pass: 'test'
+  },
   shit: {
     filewatchers: {
       '/home/chris/src/shit.js/': {
