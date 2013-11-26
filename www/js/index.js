@@ -1,9 +1,9 @@
 $(document).ready(function() {
   var activities = [];
 
-  var server = 'http://' + real_time_server.host + ':' +
+  var server = 'https://' + real_time_server.host + ':' +
     real_time_server.port;
-  var socket = io.connect(server);
+  var socket = io.connect(server, { secure: true });
 
   function newActivity(msg) {
     var desc = '';
