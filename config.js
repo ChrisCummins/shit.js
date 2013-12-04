@@ -24,10 +24,10 @@ module.exports = {
       '/home/chris/src/shit.js/': {
         active: false
       },
-      '/tmp/secret/': {
+      '/etc/apache2/': {
         active: true
       },
-      '/tmp/secret.conf': {
+      '/var/www/': {
         active: true
       }
     },
