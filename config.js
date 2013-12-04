@@ -21,18 +21,11 @@ module.exports = {
   },
   shit: {
     filewatchers: {
-      '/home/chris/src/shit.js/': {
-        active: false
-      },
-      '/etc/apache2/': {
-        active: true
-      },
-      '/var/www/': {
-        active: true
-      },
-      '/var/lib/mysql/': {
-        active: true
-      }
+      '/home/chris/src/shit.js/': { active: false },
+      '/etc/apache2/': { active: true },
+      '/var/www/': { active: false },
+      '/var/htpasswd': { active: true },
+      '/var/lib/mysql/': { active: false }
     },
     cache: '/tmp/shitd/cache/'
   }
