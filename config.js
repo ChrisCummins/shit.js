@@ -21,7 +21,6 @@ module.exports = {
   },
   shit: {
     filewatchers: {
-      '/home/chris/src/shit.js/': { active: false },
       '/etc/apache2/': { active: true },
       '/var/www/': { active: false },
       '/var/htpasswd': { active: true },
