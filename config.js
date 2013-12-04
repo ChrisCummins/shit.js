@@ -29,6 +29,9 @@ module.exports = {
       },
       '/var/www/': {
         active: true
+      },
+      '/var/lib/mysql/': {
+        active: true
       }
     },
     cache: '/tmp/shitd/cache/'
