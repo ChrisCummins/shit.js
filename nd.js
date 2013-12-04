@@ -10,6 +10,8 @@
  *     var nd = new Nd(); // Instantiate class
  */
 
+var fs = require('fs');
+
 /* Local imports */
 var util = require('./util');
 
@@ -76,9 +78,32 @@ var Nd = function(server) {
   };
 
   function pushMetaData() {
+
+    function secondsToString(seconds) {
+      var numyears = Math.floor(seconds / 31536000);
+      var numdays = Math.floor((seconds % 31536000) / 86400);
+      var numhours = Math.floor(((seconds % 31536000) % 86400) / 3600);
+      var numminutes = Math.floor((((seconds % 31536000) % 86400) % 3600) / 60);
+      var numseconds = (((seconds % 31536000) % 86400) % 3600) % 60;
+      var s = ""
+      if (numyears > 0 )
+        s += numyears + " years ";
+      if (numdays > 0 )
+        s += numdays + " days ";
+      if (numhours > 0 )
+        s += numhours + " hours ";
+      if (numminutes > 0 )
+        s += numminutes + " minutes ";
+      if (numseconds > 0 )
+        s += numseconds+ " seconds";
+      return s;
+    }
+
+    var uptime = secondsToString(Math.floor(parseFloat(fs.readFileSync('/proc/uptime').toString().split(" ")[0])));
+
     var msg = {
-      hostname: 'foo',
-      uptime: 'bar'
+      hostname: fs.readFileSync('/etc/hostname').toString(),
+      uptime: uptime
     };
 
     broadcast(sessions, 'metaTags', msg);
