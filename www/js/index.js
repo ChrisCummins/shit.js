@@ -66,6 +66,11 @@ $(document).ready(function() {
     $('#activities').html(watch.activities(activities.slice(0).reverse()));
   });
 
+  socket.on('metaTags', function(msg) {
+    $('#hostname').html(msg.hostname);
+    $('#uptime').html(msg.uptime);
+  });
+
   function Watch() {
     var self=this;
     self.name = ko.observable();

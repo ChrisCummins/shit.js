@@ -75,6 +75,17 @@ var Nd = function(server) {
     broadcast(sessions, 'newMessage', msg);
   };
 
+  function pushMetaData() {
+    var msg = {
+      hostname: 'foo',
+      uptime: 'bar'
+    };
+
+    broadcast(sessions, 'metaTags', msg);
+  };
+
+  setInterval(pushMetaData, 1000);
+
   /*
    * Our socket connection.
    */
@@ -95,6 +106,7 @@ var Nd = function(server) {
       clients[client.id] = client;
 
       pushAllMessages();
+      pushMetaData();
     });
 
   });
