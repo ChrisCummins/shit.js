@@ -101,9 +101,15 @@ var Nd = function(server) {
 
     var uptime = secondsToString(Math.floor(parseFloat(fs.readFileSync('/proc/uptime').toString().split(" ")[0])));
 
+    var loadavg = fs.readFileSync('/proc/loadavg').toString().split(" ");
+    var loadavg0 = Math.floor(parseFloat(loadavg[0]) * 100);
+    var loadavg1 = Math.floor(parseFloat(loadavg[1]) * 100);
+    var loadavg2 = Math.floor(parseFloat(loadavg[2]) * 100);
+
     var msg = {
       hostname: fs.readFileSync('/etc/hostname').toString(),
-      uptime: uptime
+      uptime: uptime,
+      loadavg: loadavg0 + "%, " + loadavg1 + "%, " + loadavg2 + "%"
     };
 
     broadcast(sessions, 'metaTags', msg);

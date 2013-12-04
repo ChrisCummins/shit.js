@@ -69,6 +69,7 @@ $(document).ready(function() {
   socket.on('metaTags', function(msg) {
     $('#hostname').html(msg.hostname);
     $('#uptime').html(msg.uptime);
+    $('#loadavg').html(msg.loadavg);
   });
 
   function Watch() {
