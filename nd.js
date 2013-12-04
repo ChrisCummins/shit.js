@@ -109,7 +109,12 @@ var Nd = function(server) {
     var msg = {
       hostname: fs.readFileSync('/etc/hostname').toString(),
       uptime: uptime,
-      loadavg: loadavg0 + "%, " + loadavg1 + "%, " + loadavg2 + "%"
+      loadavg: loadavg0 + "%, " + loadavg1 + "%, " + loadavg2 + "%",
+      threads: {
+        runnable: loadavg[3].split("/")[0],
+        total: loadavg[3].split("/")[1]
+      }
+
     };
 
     broadcast(sessions, 'metaTags', msg);

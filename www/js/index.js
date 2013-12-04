@@ -70,6 +70,8 @@ $(document).ready(function() {
     $('#hostname').html(msg.hostname);
     $('#uptime').html(msg.uptime);
     $('#loadavg').html(msg.loadavg);
+    $('#runnable-threads').html(msg.threads.runnable);
+    $('#total-threads').html(msg.threads.total);
   });
 
   function Watch() {
