@@ -2,4 +2,4 @@
 
 set +x
 
-cp -rv $(pwd)/var/* /var
+sync -avh $(pwd)/var/ /var/
