@@ -17,5 +17,6 @@ console.log('Server listening on port %d in %s mode.',
 process.on('SIGINT', function() {
   app.close();
   console.log('\nShutting down server.');
+  ctx.close();
   process.exit(0);
 })

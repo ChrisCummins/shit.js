@@ -112,13 +112,6 @@ function init() {
             console.log('fatal: unable to write PID file \'' + pidfile + '\'!');
         });
 
-        process.on('SIGINT', function() {
-          fs.unlink(pidfile, function(error) {
-            if (error)
-              console.log('fatal: unable to remove PID file \'' + pidfile + '\'!');
-          });
-        });
-
       }
     });
   }
@@ -153,3 +146,13 @@ function init() {
   initErrorLog();
 }
 module.exports.init = init;
+
+function close() {
+  fs.unlink(config.pidfile, function(error) {
+    if (error)
+      console.log('fatal: unable to remove PID file \'' + pidfile + '\'!');
+    else
+      console.log('Removed PID file');
+  });
+}
+module.exports.close = close;
