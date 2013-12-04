@@ -5,7 +5,7 @@
 
 PROGRAM=shitd
 
-PIDFILE="/tmp/$PROGRAM.pid"
+PIDFILE="/tmp/shitd/pid"
 
 START_CMD="node server.js"
 
