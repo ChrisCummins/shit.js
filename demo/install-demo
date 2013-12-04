@@ -1,0 +1,5 @@
+#!/bin/bash
+
+set +x
+
+cp -rv $(pwd)/var/* /var
